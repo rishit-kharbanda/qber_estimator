@@ -1,0 +1,345 @@
+16:11:28 INFO  : updated workspace path: C:\Users\Admin\Desktop\QBER_Estimator
+16:11:28 INFO  : Marking the target connection as default Local
+16:11:28 INFO  : Marking the target connection as default Linux Agent
+16:11:28 INFO  : Marking the target connection as default XRTServer
+16:11:28 INFO  : Marking the target connection as default LinuxEmulation
+16:11:28 INFO  : Marking the target connection as default QEMU
+16:11:28 INFO  : created .gitignore file for the project C:\Users\Admin\Desktop\QBER_Estimator
+16:11:28 INFO  : updated workspace path: C:\Users\Admin\Desktop\QBER_Estimator
+16:11:28 INFO  : created .gitignore file for the project C:\Users\Admin\Desktop\QBER_Estimator
+16:11:28 INFO  : Successfully created repository data at C:\Users\Admin\AppData\Local\Temp\rigel_lopper_Admin10658524750419769053
+16:11:28 INFO  : cmd.exe, /C, C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\activate.bat && python C:\Xilinx\Vitis\2023.2\data\embeddedsw\scripts\pyesw\\get_template_data.py -d C:\Users\Admin\AppData\Local\Temp\rigel_lopper_Admin17386643890824574084 -r C:\Users\Admin\AppData\Local\Temp\rigel_lopper_Admin10658524750419769053\.repo.yaml && C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\deactivate.bat
+16:11:29 INFO  : Embedded Template List generated successfully
+16:11:29 INFO  : cmd.exe, /C, C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\activate.bat && python C:\Xilinx\Vitis\2023.2\data\embeddedsw\scripts\pyesw\\repo.py -st   C:\Xilinx\Vitis\2023.2\data\embeddedsw && C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\deactivate.bat
+16:11:29 INFO  : Successfully created repository data at C:\Users\Admin\Desktop\QBER_Estimator
+16:11:29 INFO  : cmd.exe, /C, C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\activate.bat && python C:\Xilinx\Vitis\2023.2\data\embeddedsw\scripts\pyesw\\get_template_data.py -d C:\Users\Admin\AppData\Local\Temp\rigel_lopper_Admin16835799950159345941 -r C:\Users\Admin\Desktop\QBER_Estimator\.repo.yaml && C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\deactivate.bat
+16:11:30 INFO  : Embedded Template List generated successfully
+16:11:30 INFO  : cmd.exe, /C, C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\activate.bat && python C:\Xilinx\Vitis\2023.2\data\embeddedsw\scripts\pyesw\\get_template_data.py -d C:\Users\Admin\AppData\Local\Temp\rigel_lopper_Admin4323006084346305402 -r C:\Users\Admin\Desktop\QBER_Estimator\.repo.yaml && C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\deactivate.bat
+16:11:30 INFO  : Embedded Template List generated successfully
+16:12:12 INFO  : Found no platform with name 'design_1_wrapper' in install repositories
+16:12:12 INFO  : cmd.exe, /C, C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\activate.bat && xsct.bat C:\Xilinx\Vitis\2023.2\vitisng-server\scripts\platformutil.tcl C:\Users\Admin\Desktop\QBER_Estimator\design_1_wrapper.xsa C:\Users\Admin\Desktop\QBER_Estimator\.rigel_lopper_temp_platform\design_1_wrapper\hw\sdt && C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\deactivate.bat
+16:12:19 INFO  : ECHO is off.
+16:12:19 INFO  : ECHO is off.
+16:12:19 INFO  : INFO: [Hsi 55-2053] elapsed time for repository (C:/Xilinx/Vitis/2023.2/data/embeddedsw) loading 2 seconds
+16:12:19 INFO  : WARNING: [Common 17-673] Cannot get value of property 'C_QSPI_MODE' because this property is not valid in conjunction with other property setting on this object.
+16:12:19 INFO  : WARNING: [Common 17-673] Cannot get value of property 'C_ETH_MODE' because this property is not valid in conjunction with other property setting on this object.
+16:12:19 INFO  : WARNING: [Common 17-673] Cannot get value of property 'C_CPU_1X_CLK_FREQ_HZ' because this property is not valid in conjunction with other property setting on this object.
+16:12:19 INFO  : WARNING: [Common 17-673] Cannot get value of property 'C_EMIO_GPIO_WIDTH' because this property is not valid in conjunction with other property setting on this object.
+16:12:19 INFO  : WARNING: [Common 17-673] Cannot get value of property 'C_MIO_GPIO_MASK' because this property is not valid in conjunction with other property setting on this object.
+16:12:19 INFO  : SDT generated successfully
+16:12:19 INFO  : Lopper command for cpu List generation: lopper -O C:\Users\Admin\Desktop\QBER_Estimator\.rigel_lopper -f -i C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Lib\site-packages\lopper\lops\lop-cpulist.dts C:\Users\Admin\Desktop\QBER_Estimator\.rigel_lopper_temp_platform\design_1_wrapper\hw\sdt\system-top.dts
+16:12:19 INFO  : cmd.exe, /C, C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\activate.bat && lopper -O C:\Users\Admin\Desktop\QBER_Estimator\.rigel_lopper -f -i C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Lib\site-packages\lopper\lops\lop-cpulist.dts C:\Users\Admin\Desktop\QBER_Estimator\.rigel_lopper_temp_platform\design_1_wrapper\hw\sdt\system-top.dts && C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\deactivate.bat
+16:12:20 INFO  : ps7_cortexa9_0
+16:12:20 INFO  : ps7_cortexa9_1
+16:12:20 INFO  : CPU List generated successfully
+16:12:23 INFO  : Platform  qber_platform creation started.
+16:12:23 INFO  : Found no platform with name 'design_1_wrapper' in install repositories
+16:12:23 INFO  : Lopper command for cpu List generation: lopper -O C:\Users\Admin\Desktop\QBER_Estimator\.rigel_lopper -f -i C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Lib\site-packages\lopper\lops\lop-cpulist.dts C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\hw\sdt\system-top.dts
+16:12:23 INFO  : cmd.exe, /C, C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\activate.bat && lopper -O C:\Users\Admin\Desktop\QBER_Estimator\.rigel_lopper -f -i C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Lib\site-packages\lopper\lops\lop-cpulist.dts C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\hw\sdt\system-top.dts && C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\deactivate.bat
+16:12:24 INFO  : ps7_cortexa9_0
+16:12:24 INFO  : ps7_cortexa9_1
+16:12:24 INFO  : CPU List generated successfully
+16:12:24 INFO  : SDT generated successfully.
+16:12:24 INFO  : created .gitignore file for the project C:\Users\Admin\Desktop\QBER_Estimator\qber_platform
+16:12:24 INFO  : ZYNQ: Using the QEMU args from install at  : C:\Xilinx\Vitis\2023.2\data\emulation\platforms\zynq\sw\a9_linux\qemu\qemu_args.txt
+16:12:24 INFO  : ZYNQ: Using the QEMU args from install at  : C:\Xilinx\Vitis\2023.2\data\emulation\platforms\zynq\sw\a9_standalone\qemu\qemu_args.txt
+16:12:24 INFO  : ZYNQ: Using the QEMU args from install at  : C:\Xilinx\Vitis\2023.2\data\emulation\platforms\zynq\sw\a9_standalone\qemu\qemu_args.txt
+16:12:24 INFO  : lopper command to generate BSP :python C:\Xilinx\Vitis\2023.2\data\embeddedsw/scripts/pyesw//create_bsp.py -w C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\ps7_cortexa9_0\standalone_ps7_cortexa9_0\bsp -p ps7_cortexa9_0 -o standalone -s C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\hw\sdt\system-top.dts -t empty_application -r C:\Users\Admin\Desktop\QBER_Estimator\.repo.yaml
+16:12:24 INFO  : lopper command to generate BSP :python C:\Xilinx\Vitis\2023.2\data\embeddedsw/scripts/pyesw//create_bsp.py -w C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\zynq_fsbl\zynq_fsbl_bsp -p ps7_cortexa9_0 -o standalone -s C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\hw\sdt\system-top.dts -t zynq_fsbl -r C:\Users\Admin\Desktop\QBER_Estimator\.repo.yaml
+16:12:24 INFO  : cmd.exe, /C, C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\activate.bat && python C:\Xilinx\Vitis\2023.2\data\embeddedsw\scripts\pyesw\\create_bsp.py -w C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\zynq_fsbl\zynq_fsbl_bsp -p ps7_cortexa9_0 -o standalone -s C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\hw\sdt\system-top.dts -t zynq_fsbl -r C:\Users\Admin\Desktop\QBER_Estimator\.repo.yaml && C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\deactivate.bat
+16:12:24 INFO  : cmd.exe, /C, C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\activate.bat && python C:\Xilinx\Vitis\2023.2\data\embeddedsw\scripts\pyesw\\create_bsp.py -w C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\ps7_cortexa9_0\standalone_ps7_cortexa9_0\bsp -p ps7_cortexa9_0 -o standalone -s C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\hw\sdt\system-top.dts -t empty_application -r C:\Users\Admin\Desktop\QBER_Estimator\.repo.yaml && C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\deactivate.bat
+16:12:39 INFO  : -- The C compiler identification is GNU 12.2.0
+16:12:39 INFO  : -- The CXX compiler identification is GNU 12.2.0
+16:12:39 INFO  : -- Detecting C compiler ABI info
+16:12:39 INFO  : -- Detecting C compiler ABI info - done
+16:12:39 INFO  : -- Check for working C compiler: C:/Xilinx/Vitis/2023.2/gnu/aarch32/nt/gcc-arm-none-eabi/bin/arm-none-eabi-gcc.exe - skipped
+16:12:39 INFO  : -- Detecting C compile features
+16:12:39 INFO  : -- Detecting C compile features - done
+16:12:39 INFO  : -- Detecting CXX compiler ABI info
+16:12:39 INFO  : -- Detecting CXX compiler ABI info - done
+16:12:39 INFO  : -- Check for working CXX compiler: C:/Xilinx/Vitis/2023.2/gnu/aarch32/nt/gcc-arm-none-eabi/bin/arm-none-eabi-g++.exe - skipped
+16:12:39 INFO  : -- Detecting CXX compile features
+16:12:39 INFO  : -- Detecting CXX compile features - done
+16:12:39 INFO  : -- Configuring done
+16:12:39 INFO  : -- Generating done
+16:12:39 INFO  : CMake Warning:
+16:12:39 INFO  :   Manually-specified variables were not used by the project:
+16:12:39 INFO  : 
+16:12:39 INFO  :     CMAKE_LIBRARY_PATH
+16:12:39 INFO  : 
+16:12:39 INFO  : 
+16:12:39 INFO  : -- Build files have been written to: C:/Users/Admin/Desktop/QBER_Estimator/qber_platform/ps7_cortexa9_0/standalone_ps7_cortexa9_0/bsp/libsrc/build_configs/gen_bsp
+16:12:39 INFO  : Successfully created Domain at C:/Users/Admin/Desktop/QBER_Estimator/qber_platform/ps7_cortexa9_0/standalone_ps7_cortexa9_0/bsp
+16:12:39 INFO  : Successfully Generated Domain C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\ps7_cortexa9_0\standalone_ps7_cortexa9_0\bsp
+16:12:39 INFO  : Domain standalone_ps7_cortexa9_0 added successfully.
+16:12:39 INFO  : -- The C compiler identification is GNU 12.2.0
+16:12:39 INFO  : -- The CXX compiler identification is GNU 12.2.0
+16:12:39 INFO  : -- Detecting C compiler ABI info
+16:12:39 INFO  : -- Detecting C compiler ABI info - done
+16:12:39 INFO  : -- Check for working C compiler: C:/Xilinx/Vitis/2023.2/gnu/aarch32/nt/gcc-arm-none-eabi/bin/arm-none-eabi-gcc.exe - skipped
+16:12:39 INFO  : -- Detecting C compile features
+16:12:39 INFO  : -- Detecting C compile features - done
+16:12:39 INFO  : -- Detecting CXX compiler ABI info
+16:12:39 INFO  : -- Detecting CXX compiler ABI info - done
+16:12:39 INFO  : -- Check for working CXX compiler: C:/Xilinx/Vitis/2023.2/gnu/aarch32/nt/gcc-arm-none-eabi/bin/arm-none-eabi-g++.exe - skipped
+16:12:39 INFO  : -- Detecting CXX compile features
+16:12:39 INFO  : -- Detecting CXX compile features - done
+16:12:39 INFO  : -- Configuring done
+16:12:39 INFO  : -- Generating done
+16:12:39 INFO  : CMake Warning:
+16:12:39 INFO  :   Manually-specified variables were not used by the project:
+16:12:39 INFO  : 
+16:12:39 INFO  :     CMAKE_LIBRARY_PATH
+16:12:39 INFO  : 
+16:12:39 INFO  : 
+16:12:39 INFO  : -- Build files have been written to: C:/Users/Admin/Desktop/QBER_Estimator/qber_platform/zynq_fsbl/zynq_fsbl_bsp/libsrc/build_configs/gen_bsp
+16:12:39 INFO  : Successfully created Domain at C:/Users/Admin/Desktop/QBER_Estimator/qber_platform/zynq_fsbl/zynq_fsbl_bsp
+16:12:39 INFO  : Successfully Generated Domain C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\zynq_fsbl\zynq_fsbl_bsp
+16:12:39 INFO  : lopper command to create baremetal application :python C:\Xilinx\Vitis\2023.2\data\embeddedsw/scripts/pyesw//create_app.py -s C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\zynq_fsbl -t zynq_fsbl -d C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\zynq_fsbl\zynq_fsbl_bsp -n fsbl -r C:\Users\Admin\Desktop\QBER_Estimator\.repo.yaml
+16:12:39 INFO  : cmd.exe, /C, C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\activate.bat && python C:\Xilinx\Vitis\2023.2\data\embeddedsw\scripts\pyesw\\validate_bsp.py -t zynq_fsbl -d C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\zynq_fsbl\zynq_fsbl_bsp -r C:\Users\Admin\Desktop\QBER_Estimator\.repo.yaml && C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\deactivate.bat
+16:12:40 INFO  : Successfully validated template zynq_fsbl
+16:12:40 INFO  : cmd.exe, /C, C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\activate.bat && python C:\Xilinx\Vitis\2023.2\data\embeddedsw\scripts\pyesw\\create_app.py -s C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\zynq_fsbl -t zynq_fsbl -d C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\zynq_fsbl\zynq_fsbl_bsp -n fsbl -r C:\Users\Admin\Desktop\QBER_Estimator\.repo.yaml && C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\deactivate.bat
+16:12:42 INFO  : Successfully Created Application sources at C:/Users/Admin/Desktop/QBER_Estimator/qber_platform/zynq_fsbl
+16:12:42 INFO  : Successfully created Application C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\zynq_fsbl
+16:12:42 INFO  : Platform FSBL Boot domain added successfully.
+16:12:42 INFO  : Platform creation finished successfully.
+16:12:42 INFO  : Platform Quick Build initiated.
+16:12:42 INFO  : Generating Export directory
+16:12:42 INFO  : Generated platform metadata for creating application(s) based on platform qber_platform.
+16:14:02 INFO  : cmd.exe, /C, C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\activate.bat && python C:\Xilinx\Vitis\2023.2\data\embeddedsw\scripts\pyesw\\validate_bsp.py -t empty_application -d C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\export\qber_platform\sw\standalone_ps7_cortexa9_0 -r C:\Users\Admin\Desktop\QBER_Estimator\.repo.yaml && C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\deactivate.bat
+16:14:02 INFO  : Successfully validated template empty_application
+16:14:08 INFO  : lopper command to create baremetal application :python C:\Xilinx\Vitis\2023.2\data\embeddedsw/scripts/pyesw//create_app.py -s C:\Users\Admin\Desktop\QBER_Estimator\fulltest\src -t empty_application -d C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\export\qber_platform\sw\standalone_ps7_cortexa9_0 -n fulltest -r C:\Users\Admin\Desktop\QBER_Estimator\.repo.yaml
+16:14:08 INFO  : cmd.exe, /C, C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\activate.bat && python C:\Xilinx\Vitis\2023.2\data\embeddedsw\scripts\pyesw\\validate_bsp.py -t empty_application -d C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\export\qber_platform\sw\standalone_ps7_cortexa9_0 -r C:\Users\Admin\Desktop\QBER_Estimator\.repo.yaml && C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\deactivate.bat
+16:14:08 INFO  : Successfully validated template empty_application
+16:14:08 INFO  : cmd.exe, /C, C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\activate.bat && python C:\Xilinx\Vitis\2023.2\data\embeddedsw\scripts\pyesw\\create_app.py -s C:\Users\Admin\Desktop\QBER_Estimator\fulltest\src -t empty_application -d C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\export\qber_platform\sw\standalone_ps7_cortexa9_0 -n fulltest -r C:\Users\Admin\Desktop\QBER_Estimator\.repo.yaml && C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\deactivate.bat
+16:14:13 INFO  : CMake Warning:
+16:14:13 INFO  :   Manually-specified variables were not used by the project:
+16:14:13 INFO  : 
+16:14:13 INFO  :     CMAKE_LIBRARY_PATH
+16:14:13 INFO  : 
+16:14:13 INFO  : 
+16:14:13 INFO  : Successfully Created Application sources at C:/Users/Admin/Desktop/QBER_Estimator/fulltest/src
+16:14:13 INFO  : Successfully created Application C:\Users\Admin\Desktop\QBER_Estimator\fulltest\src
+16:14:13 INFO  : The hardware specification used by project 'C:\Users\Admin\Desktop\QBER_Estimator\fulltest' is out of sync with the platform. Resource files extracted from the hardware specification will be updated.
+16:14:13 INFO  : The updated bitstream files are copied from platform to folder 'C:\Users\Admin\Desktop\QBER_Estimator\fulltest\_ide\bitstream' in project 'C:\Users\Admin\Desktop\QBER_Estimator\fulltest'.
+16:14:13 INFO  : The updated ps init files are copied from platform to folder 'C:\Users\Admin\Desktop\QBER_Estimator\fulltest\_ide\psinit' in project 'C:\Users\Admin\Desktop\QBER_Estimator\fulltest'.
+16:14:13 INFO  : created .gitignore file for the project C:\Users\Admin\Desktop\QBER_Estimator\fulltest
+16:14:19 INFO  : cmd.exe, /C, C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\activate.bat && python C:\Xilinx\Vitis\2023.2\data\embeddedsw\scripts\pyesw\\validate_bsp.py -t empty_application -d C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\export\qber_platform\sw\standalone_ps7_cortexa9_0 -r C:\Users\Admin\Desktop\QBER_Estimator\.repo.yaml && C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\deactivate.bat
+16:14:19 INFO  : Successfully validated template empty_application
+16:14:21 INFO  : lopper command to create baremetal application :python C:\Xilinx\Vitis\2023.2\data\embeddedsw/scripts/pyesw//create_app.py -s C:\Users\Admin\Desktop\QBER_Estimator\demo\src -t empty_application -d C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\export\qber_platform\sw\standalone_ps7_cortexa9_0 -n demo -r C:\Users\Admin\Desktop\QBER_Estimator\.repo.yaml
+16:14:21 INFO  : cmd.exe, /C, C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\activate.bat && python C:\Xilinx\Vitis\2023.2\data\embeddedsw\scripts\pyesw\\validate_bsp.py -t empty_application -d C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\export\qber_platform\sw\standalone_ps7_cortexa9_0 -r C:\Users\Admin\Desktop\QBER_Estimator\.repo.yaml && C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\deactivate.bat
+16:14:21 INFO  : Successfully validated template empty_application
+16:14:21 INFO  : cmd.exe, /C, C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\activate.bat && python C:\Xilinx\Vitis\2023.2\data\embeddedsw\scripts\pyesw\\create_app.py -s C:\Users\Admin\Desktop\QBER_Estimator\demo\src -t empty_application -d C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\export\qber_platform\sw\standalone_ps7_cortexa9_0 -n demo -r C:\Users\Admin\Desktop\QBER_Estimator\.repo.yaml && C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\deactivate.bat
+16:14:23 INFO  : CMake Warning:
+16:14:23 INFO  :   Manually-specified variables were not used by the project:
+16:14:23 INFO  : 
+16:14:23 INFO  :     CMAKE_LIBRARY_PATH
+16:14:23 INFO  : 
+16:14:23 INFO  : 
+16:14:23 INFO  : Successfully Created Application sources at C:/Users/Admin/Desktop/QBER_Estimator/demo/src
+16:14:23 INFO  : Successfully created Application C:\Users\Admin\Desktop\QBER_Estimator\demo\src
+16:14:23 INFO  : The hardware specification used by project 'C:\Users\Admin\Desktop\QBER_Estimator\demo' is out of sync with the platform. Resource files extracted from the hardware specification will be updated.
+16:14:23 INFO  : The updated bitstream files are copied from platform to folder 'C:\Users\Admin\Desktop\QBER_Estimator\demo\_ide\bitstream' in project 'C:\Users\Admin\Desktop\QBER_Estimator\demo'.
+16:14:23 INFO  : The updated ps init files are copied from platform to folder 'C:\Users\Admin\Desktop\QBER_Estimator\demo\_ide\psinit' in project 'C:\Users\Admin\Desktop\QBER_Estimator\demo'.
+16:14:23 INFO  : created .gitignore file for the project C:\Users\Admin\Desktop\QBER_Estimator\demo
+16:14:36 INFO  : cmd.exe, /C, C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\activate.bat && python C:\Xilinx\Vitis\2023.2\data\embeddedsw\scripts\pyesw\\validate_bsp.py -t empty_application -d C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\export\qber_platform\sw\standalone_ps7_cortexa9_0 -r C:\Users\Admin\Desktop\QBER_Estimator\.repo.yaml && C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\deactivate.bat
+16:14:36 INFO  : Successfully validated template empty_application
+16:14:37 INFO  : lopper command to create baremetal application :python C:\Xilinx\Vitis\2023.2\data\embeddedsw/scripts/pyesw//create_app.py -s C:\Users\Admin\Desktop\QBER_Estimator\oledtest\src -t empty_application -d C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\export\qber_platform\sw\standalone_ps7_cortexa9_0 -n oledtest -r C:\Users\Admin\Desktop\QBER_Estimator\.repo.yaml
+16:14:37 INFO  : cmd.exe, /C, C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\activate.bat && python C:\Xilinx\Vitis\2023.2\data\embeddedsw\scripts\pyesw\\validate_bsp.py -t empty_application -d C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\export\qber_platform\sw\standalone_ps7_cortexa9_0 -r C:\Users\Admin\Desktop\QBER_Estimator\.repo.yaml && C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\deactivate.bat
+16:14:37 INFO  : Successfully validated template empty_application
+16:14:37 INFO  : cmd.exe, /C, C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\activate.bat && python C:\Xilinx\Vitis\2023.2\data\embeddedsw\scripts\pyesw\\create_app.py -s C:\Users\Admin\Desktop\QBER_Estimator\oledtest\src -t empty_application -d C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\export\qber_platform\sw\standalone_ps7_cortexa9_0 -n oledtest -r C:\Users\Admin\Desktop\QBER_Estimator\.repo.yaml && C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\deactivate.bat
+16:14:39 INFO  : CMake Warning:
+16:14:39 INFO  :   Manually-specified variables were not used by the project:
+16:14:39 INFO  : 
+16:14:39 INFO  :     CMAKE_LIBRARY_PATH
+16:14:39 INFO  : 
+16:14:39 INFO  : 
+16:14:39 INFO  : Successfully Created Application sources at C:/Users/Admin/Desktop/QBER_Estimator/oledtest/src
+16:14:39 INFO  : Successfully created Application C:\Users\Admin\Desktop\QBER_Estimator\oledtest\src
+16:14:39 INFO  : The hardware specification used by project 'C:\Users\Admin\Desktop\QBER_Estimator\oledtest' is out of sync with the platform. Resource files extracted from the hardware specification will be updated.
+16:14:39 INFO  : The updated bitstream files are copied from platform to folder 'C:\Users\Admin\Desktop\QBER_Estimator\oledtest\_ide\bitstream' in project 'C:\Users\Admin\Desktop\QBER_Estimator\oledtest'.
+16:14:39 INFO  : The updated ps init files are copied from platform to folder 'C:\Users\Admin\Desktop\QBER_Estimator\oledtest\_ide\psinit' in project 'C:\Users\Admin\Desktop\QBER_Estimator\oledtest'.
+16:14:39 INFO  : created .gitignore file for the project C:\Users\Admin\Desktop\QBER_Estimator\oledtest
+16:14:44 INFO  : cmd.exe, /C, C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\activate.bat && python C:\Xilinx\Vitis\2023.2\data\embeddedsw\scripts\pyesw\\validate_bsp.py -t empty_application -d C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\export\qber_platform\sw\standalone_ps7_cortexa9_0 -r C:\Users\Admin\Desktop\QBER_Estimator\.repo.yaml && C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\deactivate.bat
+16:14:44 INFO  : Successfully validated template empty_application
+16:14:48 INFO  : lopper command to create baremetal application :python C:\Xilinx\Vitis\2023.2\data\embeddedsw/scripts/pyesw//create_app.py -s C:\Users\Admin\Desktop\QBER_Estimator\main\src -t empty_application -d C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\export\qber_platform\sw\standalone_ps7_cortexa9_0 -n main -r C:\Users\Admin\Desktop\QBER_Estimator\.repo.yaml
+16:14:48 INFO  : cmd.exe, /C, C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\activate.bat && python C:\Xilinx\Vitis\2023.2\data\embeddedsw\scripts\pyesw\\validate_bsp.py -t empty_application -d C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\export\qber_platform\sw\standalone_ps7_cortexa9_0 -r C:\Users\Admin\Desktop\QBER_Estimator\.repo.yaml && C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\deactivate.bat
+16:14:48 INFO  : Successfully validated template empty_application
+16:14:48 INFO  : cmd.exe, /C, C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\activate.bat && python C:\Xilinx\Vitis\2023.2\data\embeddedsw\scripts\pyesw\\create_app.py -s C:\Users\Admin\Desktop\QBER_Estimator\main\src -t empty_application -d C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\export\qber_platform\sw\standalone_ps7_cortexa9_0 -n main -r C:\Users\Admin\Desktop\QBER_Estimator\.repo.yaml && C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\deactivate.bat
+16:14:52 INFO  : CMake Warning:
+16:14:52 INFO  :   Manually-specified variables were not used by the project:
+16:14:52 INFO  : 
+16:14:52 INFO  :     CMAKE_LIBRARY_PATH
+16:14:52 INFO  : 
+16:14:52 INFO  : 
+16:14:52 INFO  : Successfully Created Application sources at C:/Users/Admin/Desktop/QBER_Estimator/main/src
+16:14:52 INFO  : Successfully created Application C:\Users\Admin\Desktop\QBER_Estimator\main\src
+16:14:52 INFO  : The hardware specification used by project 'C:\Users\Admin\Desktop\QBER_Estimator\main' is out of sync with the platform. Resource files extracted from the hardware specification will be updated.
+16:14:52 INFO  : The updated bitstream files are copied from platform to folder 'C:\Users\Admin\Desktop\QBER_Estimator\main\_ide\bitstream' in project 'C:\Users\Admin\Desktop\QBER_Estimator\main'.
+16:14:52 INFO  : The updated ps init files are copied from platform to folder 'C:\Users\Admin\Desktop\QBER_Estimator\main\_ide\psinit' in project 'C:\Users\Admin\Desktop\QBER_Estimator\main'.
+16:14:52 INFO  : created .gitignore file for the project C:\Users\Admin\Desktop\QBER_Estimator\main
+16:16:20 INFO  : BSP build will be initiated for Domain zynq_fsbl
+16:16:20 INFO  : Generating BSP for the domain C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\zynq_fsbl\zynq_fsbl_bsp
+16:16:20 INFO  : lopper command to build BSP :python C:\Xilinx\Vitis\2023.2\data\embeddedsw/scripts/pyesw//build_bsp.py -d C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\zynq_fsbl\zynq_fsbl_bsp
+16:16:20 INFO  : cmd.exe, /C, C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\activate.bat && python C:\Xilinx\Vitis\2023.2\data\embeddedsw\scripts\pyesw\\build_bsp.py -d C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\zynq_fsbl\zynq_fsbl_bsp && C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\deactivate.bat
+16:16:20 INFO  : BSP build will be initiated for Domain standalone_ps7_cortexa9_0
+16:16:20 INFO  : Generating BSP for the domain C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\ps7_cortexa9_0\standalone_ps7_cortexa9_0\bsp
+16:16:20 INFO  : lopper command to build BSP :python C:\Xilinx\Vitis\2023.2\data\embeddedsw/scripts/pyesw//build_bsp.py -d C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\ps7_cortexa9_0\standalone_ps7_cortexa9_0\bsp
+16:16:20 INFO  : cmd.exe, /C, C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\activate.bat && python C:\Xilinx\Vitis\2023.2\data\embeddedsw\scripts\pyesw\\build_bsp.py -d C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\ps7_cortexa9_0\standalone_ps7_cortexa9_0\bsp && C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\deactivate.bat
+16:16:33 INFO  : Domain build successfully
+16:16:33 INFO  : Domain build successfully
+16:16:33 INFO  : Generating Boot ELFs
+16:16:33 INFO  : lopper command to build baremetal application :python C:\Xilinx\Vitis\2023.2\data\embeddedsw/scripts/pyesw//build_app.py -s C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\zynq_fsbl -b C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\zynq_fsbl\build
+16:16:33 INFO  : cmd.exe, /C, C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\activate.bat && python C:\Xilinx\Vitis\2023.2\data\embeddedsw\scripts\pyesw\\build_app.py -s C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\zynq_fsbl -b C:\Users\Admin\Desktop\QBER_Estimator\qber_platform\zynq_fsbl\build && C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\deactivate.bat
+16:16:35 INFO  : Successfully building the baremetal applicationC:\Users\Admin\Desktop\QBER_Estimator\qber_platform\zynq_fsbl\build
+16:16:35 INFO  : Generating Export directory
+16:16:35 INFO  : Platform Build Finished successfully.
+16:16:35 INFO  : cmd.exe, /C, C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\activate.bat && python C:\Xilinx\Vitis\2023.2\data\embeddedsw\scripts\pyesw\\build_app.py -s c:\Users\Admin\Desktop\QBER_Estimator\demo\src -b c:\Users\Admin\Desktop\QBER_Estimator\demo\build && C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\deactivate.bat
+16:16:37 ERROR : demo build failed. 
+16:16:48 INFO  : cmd.exe, /C, C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\activate.bat && python C:\Xilinx\Vitis\2023.2\data\embeddedsw\scripts\pyesw\\build_app.py -s c:\Users\Admin\Desktop\QBER_Estimator\demo\src -b c:\Users\Admin\Desktop\QBER_Estimator\demo\build && C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\deactivate.bat
+16:16:49 ERROR : demo build failed. 
+16:16:52 INFO  : cmd.exe, /C, C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\activate.bat && python C:\Xilinx\Vitis\2023.2\data\embeddedsw\scripts\pyesw\\build_app.py -s c:\Users\Admin\Desktop\QBER_Estimator\fulltest\src -b c:\Users\Admin\Desktop\QBER_Estimator\fulltest\build && C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\deactivate.bat
+16:16:54 ERROR : fulltest build failed. 
+16:20:08 INFO  : cmd.exe, /C, C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\activate.bat && python C:\Xilinx\Vitis\2023.2\data\embeddedsw\scripts\pyesw\\build_app.py -s c:\Users\Admin\Desktop\QBER_Estimator\demo\src -b c:\Users\Admin\Desktop\QBER_Estimator\demo\build && C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\deactivate.bat
+16:20:14 INFO  : cmd.exe, /C, C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\activate.bat && python C:\Xilinx\Vitis\2023.2\data\embeddedsw\scripts\pyesw\\build_app.py -s c:\Users\Admin\Desktop\QBER_Estimator\fulltest\src -b c:\Users\Admin\Desktop\QBER_Estimator\fulltest\build && C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\deactivate.bat
+16:20:17 INFO  : cmd.exe, /C, C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\activate.bat && python C:\Xilinx\Vitis\2023.2\data\embeddedsw\scripts\pyesw\\build_app.py -s c:\Users\Admin\Desktop\QBER_Estimator\main\src -b c:\Users\Admin\Desktop\QBER_Estimator\main\build && C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\deactivate.bat
+16:20:21 INFO  : cmd.exe, /C, C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\activate.bat && python C:\Xilinx\Vitis\2023.2\data\embeddedsw\scripts\pyesw\\build_app.py -s c:\Users\Admin\Desktop\QBER_Estimator\oledtest\src -b c:\Users\Admin\Desktop\QBER_Estimator\oledtest\build && C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\deactivate.bat
+16:22:28 INFO  : XSDB server has started successfully from frontend.
+16:22:28 INFO  : It has taken  1secs.
+16:22:29 INFO  : Connection to XSDB Server established.
+16:22:29 INFO  : It has taken  1secs.
+16:22:32 INFO  : Done
+16:22:32 INFO  : connect -url tcp:127.0.0.1:3121
+16:22:33 INFO  : bpremove -all
+16:22:33 INFO  : Context for 'APU' is selected.
+16:22:33 INFO  : System reset is completed.
+16:22:36 INFO  : 'after 3000' command is executed.
+16:22:36 INFO  : 'targets -set -filter {jtag_cable_name =~ "Digilent Zed 210248564528" && level==0 && jtag_device_ctx=="jsn-Zed-210248564528-23727093-0"}' command is executed.
+16:22:39 INFO  : Device configured successfully with "C:/Users/Admin/Desktop/QBER_Estimator/demo/_ide/bitstream/design_1_wrapper.bit"
+16:22:39 INFO  : targets -set -nocase -filter {name =~"APU*"}
+16:22:39 INFO  : loadhw -hw C:/Users/Admin/Desktop/QBER_Estimator/qber_platform/export/qber_platform/hw/design_1_wrapper.xsa -mem-ranges [list {0x40000000 0xbfffffff}]
+16:22:39 INFO  : configparams force-mem-access 1
+16:22:39 INFO  : targets -set -nocase -filter {name =~"APU*"}
+16:22:39 INFO  : source C:/Users/Admin/Desktop/QBER_Estimator/demo/_ide/psinit/ps7_init.tcl
+16:22:39 INFO  : ps7_init
+16:22:39 INFO  : ps7_post_config
+16:22:39 INFO  : targets -set -nocase -filter {name =~ "*A9*#0"}
+16:22:39 INFO  : rst -processor
+16:22:39 INFO  : dow C:/Users/Admin/Desktop/QBER_Estimator/demo/build/demo.elf
+16:22:39 INFO  : con
+16:22:39 INFO  : configparams force-mem-access 0
+16:22:40 INFO  : Testing the connection for 127.0.0.1
+16:31:34 INFO  : disconnect
+16:34:07 INFO  : connect -url tcp:127.0.0.1:3121
+16:34:07 INFO  : bpremove -all
+16:34:07 INFO  : Context for 'APU' is selected.
+16:34:07 INFO  : System reset is completed.
+16:34:10 INFO  : 'after 3000' command is executed.
+16:34:10 INFO  : 'targets -set -filter {jtag_cable_name =~ "Digilent Zed 210248564528" && level==0 && jtag_device_ctx=="jsn-Zed-210248564528-23727093-0"}' command is executed.
+16:34:13 INFO  : Device configured successfully with "C:/Users/Admin/Desktop/QBER_Estimator/demo/_ide/bitstream/design_1_wrapper.bit"
+16:34:13 INFO  : targets -set -nocase -filter {name =~"APU*"}
+16:34:15 INFO  : loadhw -hw C:/Users/Admin/Desktop/QBER_Estimator/qber_platform/export/qber_platform/hw/design_1_wrapper.xsa -mem-ranges [list {0x40000000 0xbfffffff}]
+16:34:15 INFO  : configparams force-mem-access 1
+16:34:15 INFO  : targets -set -nocase -filter {name =~"APU*"}
+16:34:15 INFO  : source C:/Users/Admin/Desktop/QBER_Estimator/demo/_ide/psinit/ps7_init.tcl
+16:34:16 INFO  : ps7_init
+16:34:16 INFO  : ps7_post_config
+16:34:16 INFO  : targets -set -nocase -filter {name =~ "*A9*#0"}
+16:34:16 INFO  : rst -processor
+16:34:16 INFO  : dow C:/Users/Admin/Desktop/QBER_Estimator/demo/build/demo.elf
+16:34:16 INFO  : con
+16:34:16 INFO  : configparams force-mem-access 0
+16:34:17 INFO  : Testing the connection for 127.0.0.1
+16:42:56 INFO  : connection terminated
+16:42:56 INFO  : connection terminated
+16:42:56 INFO  : scheduling shutdown timer for 2 seconds ...
+16:42:58 INFO  : Terminating Vitis C++ Server
+16:42:58 INFO  : warning: stdin closed
+16:42:58 INFO  : Vitis C++ Server terminated
+16:43:12 INFO  : updated workspace path: C:\Users\Admin\Desktop\QBER_Estimator
+16:43:12 INFO  : created .gitignore file for the project C:\Users\Admin\Desktop\QBER_Estimator
+16:43:12 INFO  : updated workspace path: C:\Users\Admin\Desktop\QBER_Estimator
+16:43:13 INFO  : Successfully created repository data at C:\Users\Admin\AppData\Local\Temp\rigel_lopper_Admin859216944104926711
+16:43:13 INFO  : cmd.exe, /C, C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\activate.bat && python C:\Xilinx\Vitis\2023.2\data\embeddedsw\scripts\pyesw\\get_template_data.py -d C:\Users\Admin\AppData\Local\Temp\rigel_lopper_Admin10722930732933697847 -r C:\Users\Admin\AppData\Local\Temp\rigel_lopper_Admin859216944104926711\.repo.yaml && C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\deactivate.bat
+16:43:13 INFO  : Embedded Template List generated successfully
+16:43:13 INFO  : cmd.exe, /C, C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\activate.bat && python C:\Xilinx\Vitis\2023.2\data\embeddedsw\scripts\pyesw\\get_template_data.py -d C:\Users\Admin\AppData\Local\Temp\rigel_lopper_Admin4793879053365581253 -r C:\Users\Admin\Desktop\QBER_Estimator\.repo.yaml && C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\deactivate.bat
+16:43:13 INFO  : Embedded Template List generated successfully
+16:43:13 INFO  : cmd.exe, /C, C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\activate.bat && python C:\Xilinx\Vitis\2023.2\data\embeddedsw\scripts\pyesw\\get_template_data.py -d C:\Users\Admin\AppData\Local\Temp\rigel_lopper_Admin11820469172175836265 -r C:\Users\Admin\Desktop\QBER_Estimator\.repo.yaml && C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\deactivate.bat
+16:43:14 INFO  : Embedded Template List generated successfully
+16:43:20 INFO  : XSDB server has started successfully from frontend.
+16:43:20 INFO  : It has taken  1secs.
+16:43:21 INFO  : Connection to XSDB Server established.
+16:43:21 INFO  : It has taken  1secs.
+16:43:23 INFO  : connect -url tcp:127.0.0.1:3121
+16:43:23 INFO  : Done
+16:43:25 INFO  : bpremove -all
+16:43:25 INFO  : Context for 'APU' is selected.
+16:43:25 INFO  : System reset is completed.
+16:43:28 INFO  : 'after 3000' command is executed.
+16:43:28 INFO  : 'targets -set -filter {jtag_cable_name =~ "Digilent Zed 210248564528" && level==0 && jtag_device_ctx=="jsn-Zed-210248564528-23727093-0"}' command is executed.
+16:43:30 INFO  : Device configured successfully with "C:/Users/Admin/Desktop/QBER_Estimator/demo/_ide/bitstream/design_1_wrapper.bit"
+16:43:30 INFO  : targets -set -nocase -filter {name =~"APU*"}
+16:43:30 INFO  : loadhw -hw C:/Users/Admin/Desktop/QBER_Estimator/qber_platform/export/qber_platform/hw/design_1_wrapper.xsa -mem-ranges [list {0x40000000 0xbfffffff}]
+16:43:30 INFO  : configparams force-mem-access 1
+16:43:30 INFO  : targets -set -nocase -filter {name =~"APU*"}
+16:43:30 INFO  : source C:/Users/Admin/Desktop/QBER_Estimator/demo/_ide/psinit/ps7_init.tcl
+16:43:30 INFO  : ps7_init
+16:43:30 INFO  : ps7_post_config
+16:43:31 INFO  : targets -set -nocase -filter {name =~ "*A9*#0"}
+16:43:31 INFO  : rst -processor
+16:43:31 INFO  : dow C:/Users/Admin/Desktop/QBER_Estimator/demo/build/demo.elf
+16:43:31 INFO  : con
+16:43:31 INFO  : configparams force-mem-access 0
+16:43:32 INFO  : Testing the connection for 127.0.0.1
+16:44:12 INFO  : cmd.exe, /C, C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\activate.bat && python C:\Xilinx\Vitis\2023.2\data\embeddedsw\scripts\pyesw\\build_app.py -s c:\Users\Admin\Desktop\QBER_Estimator\demo\src -b c:\Users\Admin\Desktop\QBER_Estimator\demo\build && C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\deactivate.bat
+16:44:18 INFO  : connect -url tcp:127.0.0.1:3121
+16:44:18 INFO  : bpremove -all
+16:44:18 INFO  : Context for 'APU' is selected.
+16:44:18 INFO  : System reset is completed.
+16:44:21 INFO  : 'after 3000' command is executed.
+16:44:21 INFO  : 'targets -set -filter {jtag_cable_name =~ "Digilent Zed 210248564528" && level==0 && jtag_device_ctx=="jsn-Zed-210248564528-23727093-0"}' command is executed.
+16:44:23 INFO  : Device configured successfully with "C:/Users/Admin/Desktop/QBER_Estimator/demo/_ide/bitstream/design_1_wrapper.bit"
+16:44:23 INFO  : targets -set -nocase -filter {name =~"APU*"}
+16:44:23 INFO  : loadhw -hw C:/Users/Admin/Desktop/QBER_Estimator/qber_platform/export/qber_platform/hw/design_1_wrapper.xsa -mem-ranges [list {0x40000000 0xbfffffff}]
+16:44:23 INFO  : configparams force-mem-access 1
+16:44:23 INFO  : targets -set -nocase -filter {name =~"APU*"}
+16:44:23 INFO  : source C:/Users/Admin/Desktop/QBER_Estimator/demo/_ide/psinit/ps7_init.tcl
+16:44:23 INFO  : ps7_init
+16:44:23 INFO  : ps7_post_config
+16:44:24 INFO  : targets -set -nocase -filter {name =~ "*A9*#0"}
+16:44:24 INFO  : rst -processor
+16:44:24 INFO  : dow C:/Users/Admin/Desktop/QBER_Estimator/demo/build/demo.elf
+16:44:24 INFO  : con
+16:44:24 INFO  : configparams force-mem-access 0
+16:44:25 INFO  : Testing the connection for 127.0.0.1
+16:44:35 INFO  : cmd.exe, /C, C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\activate.bat && python C:\Xilinx\Vitis\2023.2\data\embeddedsw\scripts\pyesw\\build_app.py -s c:\Users\Admin\Desktop\QBER_Estimator\fulltest\src -b c:\Users\Admin\Desktop\QBER_Estimator\fulltest\build && C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\deactivate.bat
+16:44:38 INFO  : cmd.exe, /C, C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\activate.bat && python C:\Xilinx\Vitis\2023.2\data\embeddedsw\scripts\pyesw\\build_app.py -s c:\Users\Admin\Desktop\QBER_Estimator\main\src -b c:\Users\Admin\Desktop\QBER_Estimator\main\build && C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\deactivate.bat
+16:44:42 INFO  : cmd.exe, /C, C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\activate.bat && python C:\Xilinx\Vitis\2023.2\data\embeddedsw\scripts\pyesw\\build_app.py -s c:\Users\Admin\Desktop\QBER_Estimator\oledtest\src -b c:\Users\Admin\Desktop\QBER_Estimator\oledtest\build && C:\Xilinx\Vitis\2023.2\tps\win64\lopper-1.1.0\env\Scripts\deactivate.bat
+16:45:14 INFO  : connect -url tcp:127.0.0.1:3121
+16:45:14 INFO  : bpremove -all
+16:45:14 INFO  : Context for 'APU' is selected.
+16:45:14 INFO  : System reset is completed.
+16:45:17 INFO  : 'after 3000' command is executed.
+16:45:17 INFO  : 'targets -set -filter {jtag_cable_name =~ "Digilent Zed 210248564528" && level==0 && jtag_device_ctx=="jsn-Zed-210248564528-23727093-0"}' command is executed.
+16:45:19 INFO  : Device configured successfully with "C:/Users/Admin/Desktop/QBER_Estimator/main/_ide/bitstream/design_1_wrapper.bit"
+16:45:19 INFO  : targets -set -nocase -filter {name =~"APU*"}
+16:45:19 INFO  : loadhw -hw C:/Users/Admin/Desktop/QBER_Estimator/qber_platform/export/qber_platform/hw/design_1_wrapper.xsa -mem-ranges [list {0x40000000 0xbfffffff}]
+16:45:19 INFO  : configparams force-mem-access 1
+16:45:19 INFO  : targets -set -nocase -filter {name =~"APU*"}
+16:45:19 INFO  : source C:/Users/Admin/Desktop/QBER_Estimator/main/_ide/psinit/ps7_init.tcl
+16:45:20 INFO  : ps7_init
+16:45:20 INFO  : ps7_post_config
+16:45:20 INFO  : targets -set -nocase -filter {name =~ "*A9*#0"}
+16:45:20 INFO  : rst -processor
+16:45:20 INFO  : dow C:/Users/Admin/Desktop/QBER_Estimator/main/build/main.elf
+16:45:20 INFO  : con
+16:45:20 INFO  : configparams force-mem-access 0
+16:45:22 INFO  : Testing the connection for 127.0.0.1
+16:51:30 INFO  : connection terminated
+16:51:30 INFO  : connection terminated
+16:51:30 INFO  : scheduling shutdown timer for 2 seconds ...
+16:51:30 INFO  : scheduling shutdown timer for 2 seconds ...
+16:51:32 INFO  : Terminating Vitis C++ Server
+16:51:32 INFO  : Terminating Vitis C++ Server
+16:51:32 INFO  : Vitis C++ Server terminated
+16:51:32 INFO  : Vitis C++ Server terminated

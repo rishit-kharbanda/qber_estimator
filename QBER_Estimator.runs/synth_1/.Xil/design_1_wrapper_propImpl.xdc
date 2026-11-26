@@ -1,0 +1,80 @@
+set_property SRC_FILE_INFO {cfile:C:/Users/Admin/Desktop/QBER_Estimator/qber_files/constraints/ui_pmods.xdc rfile:../../../qber_files/constraints/ui_pmods.xdc id:1} [current_design]
+set_property SRC_FILE_INFO {cfile:C:/Users/Admin/Desktop/QBER_Estimator/qber_files/constraints/zedboard.xdc rfile:../../../qber_files/constraints/zedboard.xdc id:2} [current_design]
+set_property src_info {type:XDC file:1 line:9 export:INPUT save:INPUT read:READ} [current_design]
+set_property PACKAGE_PIN Y11  [get_ports {kypd_tri_io[0]}]   ;# JA1  COL4: A B C D
+set_property src_info {type:XDC file:1 line:10 export:INPUT save:INPUT read:READ} [current_design]
+set_property PACKAGE_PIN AA11 [get_ports {kypd_tri_io[1]}]   ;# JA2  COL3: 3 6 9 E
+set_property src_info {type:XDC file:1 line:11 export:INPUT save:INPUT read:READ} [current_design]
+set_property PACKAGE_PIN Y10  [get_ports {kypd_tri_io[2]}]   ;# JA3  COL2: 2 5 8 F
+set_property src_info {type:XDC file:1 line:12 export:INPUT save:INPUT read:READ} [current_design]
+set_property PACKAGE_PIN AA9  [get_ports {kypd_tri_io[3]}]   ;# JA4  COL1: 1 4 7 0
+set_property src_info {type:XDC file:1 line:13 export:INPUT save:INPUT read:READ} [current_design]
+set_property PACKAGE_PIN AB11 [get_ports {kypd_tri_io[4]}]   ;# JA7  ROW4: 0 F E D
+set_property src_info {type:XDC file:1 line:14 export:INPUT save:INPUT read:READ} [current_design]
+set_property PACKAGE_PIN AB10 [get_ports {kypd_tri_io[5]}]   ;# JA8  ROW3: 7 8 9 C
+set_property src_info {type:XDC file:1 line:15 export:INPUT save:INPUT read:READ} [current_design]
+set_property PACKAGE_PIN AB9  [get_ports {kypd_tri_io[6]}]   ;# JA9  ROW2: 4 5 6 B
+set_property src_info {type:XDC file:1 line:16 export:INPUT save:INPUT read:READ} [current_design]
+set_property PACKAGE_PIN AA8  [get_ports {kypd_tri_io[7]}]   ;# JA10 ROW1: 1 2 3 A
+set_property src_info {type:XDC file:1 line:22 export:INPUT save:INPUT read:READ} [current_design]
+set_property PACKAGE_PIN W12 [get_ports oled_iic_scl_io]     ;# JB1 -> SCL
+set_property src_info {type:XDC file:1 line:23 export:INPUT save:INPUT read:READ} [current_design]
+set_property PACKAGE_PIN W11 [get_ports oled_iic_sda_io]     ;# JB2 -> SDA
+set_property src_info {type:XDC file:1 line:32 export:INPUT save:INPUT read:READ} [current_design]
+set_property PACKAGE_PIN F22 [get_ports {sws_tri_i[0]}]
+set_property src_info {type:XDC file:1 line:33 export:INPUT save:INPUT read:READ} [current_design]
+set_property PACKAGE_PIN G22 [get_ports {sws_tri_i[1]}]
+set_property src_info {type:XDC file:1 line:34 export:INPUT save:INPUT read:READ} [current_design]
+set_property PACKAGE_PIN H22 [get_ports {sws_tri_i[2]}]
+set_property src_info {type:XDC file:1 line:35 export:INPUT save:INPUT read:READ} [current_design]
+set_property PACKAGE_PIN F21 [get_ports {sws_tri_i[3]}]
+set_property src_info {type:XDC file:1 line:36 export:INPUT save:INPUT read:READ} [current_design]
+set_property PACKAGE_PIN H19 [get_ports {sws_tri_i[4]}]
+set_property src_info {type:XDC file:1 line:37 export:INPUT save:INPUT read:READ} [current_design]
+set_property PACKAGE_PIN H18 [get_ports {sws_tri_i[5]}]
+set_property src_info {type:XDC file:1 line:38 export:INPUT save:INPUT read:READ} [current_design]
+set_property PACKAGE_PIN H17 [get_ports {sws_tri_i[6]}]
+set_property src_info {type:XDC file:1 line:39 export:INPUT save:INPUT read:READ} [current_design]
+set_property PACKAGE_PIN M15 [get_ports {sws_tri_i[7]}]
+set_property src_info {type:XDC file:1 line:40 export:INPUT save:INPUT read:READ} [current_design]
+set_property PACKAGE_PIN P16 [get_ports {btns_tri_i[0]}]     ;# BTNC
+set_property src_info {type:XDC file:1 line:41 export:INPUT save:INPUT read:READ} [current_design]
+set_property PACKAGE_PIN R16 [get_ports {btns_tri_i[1]}]     ;# BTND
+set_property src_info {type:XDC file:1 line:42 export:INPUT save:INPUT read:READ} [current_design]
+set_property PACKAGE_PIN N15 [get_ports {btns_tri_i[2]}]     ;# BTNL
+set_property src_info {type:XDC file:1 line:43 export:INPUT save:INPUT read:READ} [current_design]
+set_property PACKAGE_PIN R18 [get_ports {btns_tri_i[3]}]     ;# BTNR
+set_property src_info {type:XDC file:1 line:44 export:INPUT save:INPUT read:READ} [current_design]
+set_property PACKAGE_PIN T18 [get_ports {btns_tri_i[4]}]     ;# BTNU
+set_property src_info {type:XDC file:2 line:7 export:INPUT save:INPUT read:READ} [current_design]
+set_property -dict { PACKAGE_PIN T22  IOSTANDARD LVCMOS33 } [get_ports {led[0]}]
+set_property src_info {type:XDC file:2 line:8 export:INPUT save:INPUT read:READ} [current_design]
+set_property -dict { PACKAGE_PIN T21  IOSTANDARD LVCMOS33 } [get_ports {led[1]}]
+set_property src_info {type:XDC file:2 line:9 export:INPUT save:INPUT read:READ} [current_design]
+set_property -dict { PACKAGE_PIN U22  IOSTANDARD LVCMOS33 } [get_ports {led[2]}]
+set_property src_info {type:XDC file:2 line:10 export:INPUT save:INPUT read:READ} [current_design]
+set_property -dict { PACKAGE_PIN U21  IOSTANDARD LVCMOS33 } [get_ports {led[3]}]
+set_property src_info {type:XDC file:2 line:11 export:INPUT save:INPUT read:READ} [current_design]
+set_property -dict { PACKAGE_PIN V22  IOSTANDARD LVCMOS33 } [get_ports {led[4]}]
+set_property src_info {type:XDC file:2 line:12 export:INPUT save:INPUT read:READ} [current_design]
+set_property -dict { PACKAGE_PIN W22  IOSTANDARD LVCMOS33 } [get_ports {led[5]}]
+set_property src_info {type:XDC file:2 line:13 export:INPUT save:INPUT read:READ} [current_design]
+set_property -dict { PACKAGE_PIN U19  IOSTANDARD LVCMOS33 } [get_ports {led[6]}]
+set_property src_info {type:XDC file:2 line:14 export:INPUT save:INPUT read:READ} [current_design]
+set_property -dict { PACKAGE_PIN U14  IOSTANDARD LVCMOS33 } [get_ports {led[7]}]
+set_property src_info {type:XDC file:2 line:24 export:INPUT save:INPUT read:READ} [current_design]
+set_property -dict {PACKAGE_PIN V7 IOSTANDARD LVCMOS33} [get_ports {jd[0]}]
+set_property src_info {type:XDC file:2 line:25 export:INPUT save:INPUT read:READ} [current_design]
+set_property -dict {PACKAGE_PIN W7 IOSTANDARD LVCMOS33} [get_ports {jd[1]}]
+set_property src_info {type:XDC file:2 line:26 export:INPUT save:INPUT read:READ} [current_design]
+set_property -dict {PACKAGE_PIN V5 IOSTANDARD LVCMOS33} [get_ports {jd[2]}]
+set_property src_info {type:XDC file:2 line:27 export:INPUT save:INPUT read:READ} [current_design]
+set_property -dict {PACKAGE_PIN V4 IOSTANDARD LVCMOS33} [get_ports {jd[3]}]
+set_property src_info {type:XDC file:2 line:28 export:INPUT save:INPUT read:READ} [current_design]
+set_property -dict {PACKAGE_PIN W6 IOSTANDARD LVCMOS33} [get_ports {jd[4]}]
+set_property src_info {type:XDC file:2 line:29 export:INPUT save:INPUT read:READ} [current_design]
+set_property -dict {PACKAGE_PIN W5 IOSTANDARD LVCMOS33} [get_ports {jd[5]}]
+set_property src_info {type:XDC file:2 line:30 export:INPUT save:INPUT read:READ} [current_design]
+set_property -dict {PACKAGE_PIN U6 IOSTANDARD LVCMOS33} [get_ports {jd[6]}]
+set_property src_info {type:XDC file:2 line:31 export:INPUT save:INPUT read:READ} [current_design]
+set_property -dict {PACKAGE_PIN U5 IOSTANDARD LVCMOS33} [get_ports {jd[7]}]

@@ -1,0 +1,580 @@
+
+*** Running vivado
+    with args -log design_1_qber_pl_0_0.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source design_1_qber_pl_0_0.tcl
+
+
+ECHO is off.
+ECHO is off.
+
+****** Vivado v2023.2 (64-bit)
+  **** SW Build 4029153 on Fri Oct 13 20:14:34 MDT 2023
+  **** IP Build 4028589 on Sat Oct 14 00:45:43 MDT 2023
+  **** SharedData Build 4025554 on Tue Oct 10 17:18:54 MDT 2023
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source design_1_qber_pl_0_0.tcl -notrace
+create_project: Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 494.016 ; gain = 181.367
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'C:/Xilinx/Vivado/2023.2/data/ip'.
+INFO: [IP_Flow 19-6924] IPCACHE: Running cache check for IP inst: design_1_qber_pl_0_0
+Command: synth_design -top design_1_qber_pl_0_0 -part xc7z020clg484-1 -incremental_mode off -mode out_of_context
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7z020'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7z020'
+INFO: [Device 21-403] Loading part xc7z020clg484-1
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 20272
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 1370.066 ; gain = 439.484
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'design_1_qber_pl_0_0' [c:/Users/Admin/Desktop/QBER_Estimator/QBER_Estimator.gen/sources_1/bd/design_1/ip/design_1_qber_pl_0_0/synth/design_1_qber_pl_0_0.v:53]
+INFO: [Synth 8-6157] synthesizing module 'qber_pl' [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/qber_pl.v:32]
+INFO: [Synth 8-6157] synthesizing module 'axi_regs' [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/axi_regs.v:22]
+	Parameter ADDR_W bound to: 12 - type: integer 
+	Parameter N_CNT bound to: 20 - type: integer 
+	Parameter VERSION_VALUE bound to: -2147482880 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'axi_regs' (0#1) [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/axi_regs.v:22]
+INFO: [Synth 8-6157] synthesizing module 'qber_core' [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/qber_core.v:24]
+INFO: [Synth 8-6157] synthesizing module 'ce_gen' [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/ce_gen.v:23]
+	Parameter FAST_FILL bound to: 1 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'ce_gen' (0#1) [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/ce_gen.v:23]
+INFO: [Synth 8-6157] synthesizing module 'link_top' [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/link_top.v:20]
+INFO: [Synth 8-6157] synthesizing module 'alice_src' [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/alice_src.v:12]
+INFO: [Synth 8-6157] synthesizing module 'rng64' [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/rng64.v:15]
+	Parameter ZERO_SUB bound to: 64'b1001111000110111011110011011100101111111010010100111110000010101 
+INFO: [Synth 8-6155] done synthesizing module 'rng64' (0#1) [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/rng64.v:15]
+INFO: [Synth 8-6155] done synthesizing module 'alice_src' (0#1) [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/alice_src.v:12]
+INFO: [Synth 8-6157] synthesizing module 'quantum_channel' [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/quantum_channel.v:17]
+INFO: [Synth 8-6157] synthesizing module 'rng64__parameterized0' [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/rng64.v:15]
+	Parameter ZERO_SUB bound to: 64'b1011111101011000010001110110110100011100111001001110010110111001 
+INFO: [Synth 8-6155] done synthesizing module 'rng64__parameterized0' (0#1) [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/rng64.v:15]
+INFO: [Synth 8-6157] synthesizing module 'rng64__parameterized1' [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/rng64.v:15]
+	Parameter ZERO_SUB bound to: 64'b1001010011010000010010011011101100010011001100010001000111101011 
+INFO: [Synth 8-6155] done synthesizing module 'rng64__parameterized1' (0#1) [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/rng64.v:15]
+INFO: [Synth 8-6155] done synthesizing module 'quantum_channel' (0#1) [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/quantum_channel.v:17]
+INFO: [Synth 8-6157] synthesizing module 'bob_det' [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/bob_det.v:9]
+INFO: [Synth 8-6157] synthesizing module 'rng64__parameterized2' [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/rng64.v:15]
+	Parameter ZERO_SUB bound to: 64'b1101011011101000111111101011100001100110010110011111110110010011 
+INFO: [Synth 8-6155] done synthesizing module 'rng64__parameterized2' (0#1) [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/rng64.v:15]
+INFO: [Synth 8-6155] done synthesizing module 'bob_det' (0#1) [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/bob_det.v:9]
+INFO: [Synth 8-6155] done synthesizing module 'link_top' (0#1) [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/link_top.v:20]
+INFO: [Synth 8-6157] synthesizing module 'pe_top' [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/pe_top.v:37]
+	Parameter PC_DELAY bound to: 0 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'b_sift' [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/b_sift.v:12]
+INFO: [Synth 8-6155] done synthesizing module 'b_sift' (0#1) [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/b_sift.v:12]
+INFO: [Synth 8-6157] synthesizing module 'a_sift' [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/a_sift.v:12]
+INFO: [Synth 8-6155] done synthesizing module 'a_sift' (0#1) [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/a_sift.v:12]
+INFO: [Synth 8-6157] synthesizing module 'public_channel' [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/public_channel.v:18]
+	Parameter PC_DELAY bound to: 0 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'public_channel' (0#1) [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/public_channel.v:18]
+INFO: [Synth 8-6157] synthesizing module 'key_bram_pp' [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/key_bram_pp.v:18]
+	Parameter DISC bound to: 0 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'key_bram_pp' (0#1) [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/key_bram_pp.v:18]
+INFO: [Synth 8-6157] synthesizing module 'key_bram_pp__parameterized0' [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/key_bram_pp.v:18]
+	Parameter DISC bound to: 1 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'key_bram_pp__parameterized0' (0#1) [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/key_bram_pp.v:18]
+INFO: [Synth 8-6157] synthesizing module 'sampler' [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/sampler.v:22]
+INFO: [Synth 8-6157] synthesizing module 'rng64__parameterized3' [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/rng64.v:15]
+	Parameter ZERO_SUB bound to: 64'b1010000001110110000111010110010001111000101111010110010000101111 
+INFO: [Synth 8-6155] done synthesizing module 'rng64__parameterized3' (0#1) [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/rng64.v:15]
+INFO: [Synth 8-6155] done synthesizing module 'sampler' (0#1) [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/sampler.v:22]
+INFO: [Synth 8-6157] synthesizing module 'b_disclose' [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/b_disclose.v:14]
+INFO: [Synth 8-6155] done synthesizing module 'b_disclose' (0#1) [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/b_disclose.v:14]
+INFO: [Synth 8-6157] synthesizing module 'compare' [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/compare.v:12]
+INFO: [Synth 8-6155] done synthesizing module 'compare' (0#1) [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/compare.v:12]
+INFO: [Synth 8-6157] synthesizing module 'key_out' [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/key_out.v:26]
+INFO: [Synth 8-6155] done synthesizing module 'key_out' (0#1) [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/key_out.v:26]
+INFO: [Synth 8-6155] done synthesizing module 'pe_top' (0#1) [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/pe_top.v:37]
+INFO: [Synth 8-6157] synthesizing module 'dec_top' [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/dec_top.v:15]
+INFO: [Synth 8-6157] synthesizing module 'sprt_engine' [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/sprt_engine.v:26]
+	Parameter SW bound to: 18 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'sprt_engine' (0#1) [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/sprt_engine.v:26]
+INFO: [Synth 8-6157] synthesizing module 'fixed_engine' [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/fixed_engine.v:15]
+INFO: [Synth 8-6155] done synthesizing module 'fixed_engine' (0#1) [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/fixed_engine.v:15]
+INFO: [Synth 8-6157] synthesizing module 'session_ctrl' [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/session_ctrl.v:27]
+INFO: [Synth 8-6155] done synthesizing module 'session_ctrl' (0#1) [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/session_ctrl.v:27]
+INFO: [Synth 8-6157] synthesizing module 'stats' [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/stats.v:18]
+INFO: [Synth 8-6155] done synthesizing module 'stats' (0#1) [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/stats.v:18]
+INFO: [Synth 8-6155] done synthesizing module 'dec_top' (0#1) [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/dec_top.v:15]
+INFO: [Synth 8-6157] synthesizing module 'perf_mon' [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/perf_mon.v:18]
+	Parameter ND bound to: 4 - type: integer 
+	Parameter RT_LOG2 bound to: 20 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'perf_mon' (0#1) [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/perf_mon.v:18]
+INFO: [Synth 8-6157] synthesizing module 'dbg_pins' [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/dbg_pins.v:14]
+INFO: [Synth 8-6155] done synthesizing module 'dbg_pins' (0#1) [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/dbg_pins.v:14]
+INFO: [Synth 8-6155] done synthesizing module 'qber_core' (0#1) [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/qber_core.v:24]
+INFO: [Synth 8-6157] synthesizing module 'led_meter' [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/led_meter.v:24]
+INFO: [Synth 8-6155] done synthesizing module 'led_meter' (0#1) [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/led_meter.v:24]
+INFO: [Synth 8-6157] synthesizing module 'photon_packer' [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/photon_packer.v:23]
+INFO: [Synth 8-6155] done synthesizing module 'photon_packer' (0#1) [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/photon_packer.v:23]
+INFO: [Synth 8-6155] done synthesizing module 'qber_pl' (0#1) [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/qber_pl.v:32]
+INFO: [Synth 8-6155] done synthesizing module 'design_1_qber_pl_0_0' (0#1) [c:/Users/Admin/Desktop/QBER_Estimator/QBER_Estimator.gen/sources_1/bd/design_1/ip/design_1_qber_pl_0_0/synth/design_1_qber_pl_0_0.v:53]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_ch'. This will prevent further optimization [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/link_top.v:52]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_kout'. This will prevent further optimization [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/pe_top.v:307]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_dec'. This will prevent further optimization [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/qber_core.v:156]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_ctrl'. This will prevent further optimization [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/dec_top.v:92]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_sprt'. This will prevent further optimization [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/dec_top.v:78]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_fix'. This will prevent further optimization [C:/Users/Admin/Desktop/QBER_Estimator/qber_files/rtl/dec_top.v:86]
+WARNING: [Synth 8-7129] Port disc_we in module key_bram_pp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port disc_wdata[31] in module key_bram_pp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port disc_wdata[30] in module key_bram_pp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port disc_wdata[29] in module key_bram_pp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port disc_wdata[28] in module key_bram_pp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port disc_wdata[27] in module key_bram_pp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port disc_wdata[26] in module key_bram_pp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port disc_wdata[25] in module key_bram_pp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port disc_wdata[24] in module key_bram_pp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port disc_wdata[23] in module key_bram_pp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port disc_wdata[22] in module key_bram_pp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port disc_wdata[21] in module key_bram_pp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port disc_wdata[20] in module key_bram_pp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port disc_wdata[19] in module key_bram_pp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port disc_wdata[18] in module key_bram_pp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port disc_wdata[17] in module key_bram_pp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port disc_wdata[16] in module key_bram_pp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port disc_wdata[15] in module key_bram_pp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port disc_wdata[14] in module key_bram_pp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port disc_wdata[13] in module key_bram_pp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port disc_wdata[12] in module key_bram_pp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port disc_wdata[11] in module key_bram_pp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port disc_wdata[10] in module key_bram_pp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port disc_wdata[9] in module key_bram_pp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port disc_wdata[8] in module key_bram_pp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port disc_wdata[7] in module key_bram_pp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port disc_wdata[6] in module key_bram_pp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port disc_wdata[5] in module key_bram_pp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port disc_wdata[4] in module key_bram_pp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port disc_wdata[3] in module key_bram_pp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port disc_wdata[2] in module key_bram_pp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port disc_wdata[1] in module key_bram_pp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port disc_wdata[0] in module key_bram_pp is either unconnected or has no load
+WARNING: [Synth 8-7129] Port fix_abort in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_sprt[15] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_sprt[14] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_sprt[13] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_sprt[12] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_sprt[11] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_sprt[10] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_sprt[9] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_sprt[8] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_sprt[7] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_sprt[6] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_sprt[5] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_sprt[4] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_sprt[3] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_sprt[2] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_sprt[1] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_sprt[0] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_fix[15] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_fix[14] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_fix[13] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_fix[12] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_fix[11] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_fix[10] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_fix[9] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_fix[8] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_fix[7] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_fix[6] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_fix[5] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_fix[4] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_fix[3] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_fix[2] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_fix[1] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_fix[0] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_axi_awaddr[1] in module axi_regs is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_axi_awaddr[0] in module axi_regs is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_axi_awprot[2] in module axi_regs is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_axi_awprot[1] in module axi_regs is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_axi_awprot[0] in module axi_regs is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_axi_araddr[1] in module axi_regs is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_axi_araddr[0] in module axi_regs is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_axi_arprot[2] in module axi_regs is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_axi_arprot[1] in module axi_regs is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s_axi_arprot[0] in module axi_regs is either unconnected or has no load
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:07 ; elapsed = 00:00:09 . Memory (MB): peak = 1519.875 ; gain = 589.293
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:08 ; elapsed = 00:00:09 . Memory (MB): peak = 1519.875 ; gain = 589.293
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:08 ; elapsed = 00:00:09 . Memory (MB): peak = 1519.875 ; gain = 589.293
+---------------------------------------------------------------------------------
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.092 . Memory (MB): peak = 1519.875 ; gain = 0.000
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 1621.512 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+The system cannot find the path specified.
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.095 . Memory (MB): peak = 1626.246 ; gain = 4.734
+INFO: [Designutils 20-5008] Incremental synthesis strategy off
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:15 ; elapsed = 00:00:17 . Memory (MB): peak = 1626.246 ; gain = 695.664
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7z020clg484-1
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:15 ; elapsed = 00:00:17 . Memory (MB): peak = 1626.246 ; gain = 695.664
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:15 ; elapsed = 00:00:17 . Memory (MB): peak = 1626.246 ; gain = 695.664
+---------------------------------------------------------------------------------
+INFO: [Synth 8-802] inferred FSM for state register 'tst_reg' in module 'pe_top'
+INFO: [Synth 8-3971] The signal "key_bram_pp__parameterized0:/g_disc.dmem_reg" was recognized as a true dual port RAM template.
+INFO: [Synth 8-3971] The signal "sampler:/pmem_reg" was recognized as a true dual port RAM template.
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                  T_WAIT |                               00 |                               00
+                   T_GAP |                               01 |                               01
+                 T_CHECK |                               10 |                               10
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'tst_reg' using encoding 'sequential' in module 'pe_top'
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:17 ; elapsed = 00:00:18 . Memory (MB): peak = 1626.246 ; gain = 695.664
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input   64 Bit       Adders := 2     
+	   2 Input   32 Bit       Adders := 6     
+	   2 Input   18 Bit       Adders := 2     
+	   3 Input   18 Bit       Adders := 1     
+	   4 Input   17 Bit       Adders := 1     
+	   3 Input   17 Bit       Adders := 2     
+	   2 Input   16 Bit       Adders := 4     
+	   2 Input   13 Bit       Adders := 7     
+	   2 Input   12 Bit       Adders := 1     
+	   2 Input   11 Bit       Adders := 2     
+	   2 Input    8 Bit       Adders := 2     
+	   2 Input    7 Bit       Adders := 1     
+	   2 Input    6 Bit       Adders := 1     
+	   2 Input    5 Bit       Adders := 2     
+	   2 Input    4 Bit       Adders := 4     
+	   2 Input    3 Bit       Adders := 10    
+	   4 Input    3 Bit       Adders := 1     
+	   2 Input    2 Bit       Adders := 16    
++---XORs : 
+	   2 Input     64 Bit         XORs := 15    
+	   2 Input      1 Bit         XORs := 4     
++---Registers : 
+	               64 Bit    Registers := 7     
+	               32 Bit    Registers := 68    
+	               28 Bit    Registers := 1     
+	               24 Bit    Registers := 1     
+	               18 Bit    Registers := 7     
+	               16 Bit    Registers := 4     
+	               13 Bit    Registers := 11    
+	               12 Bit    Registers := 6     
+	               11 Bit    Registers := 5     
+	                8 Bit    Registers := 4     
+	                7 Bit    Registers := 2     
+	                6 Bit    Registers := 1     
+	                5 Bit    Registers := 2     
+	                3 Bit    Registers := 3     
+	                2 Bit    Registers := 2     
+	                1 Bit    Registers := 85    
++---RAMs : 
+	              48K Bit	(4096 X 12 bit)          RAMs := 1     
+	              24K Bit	(2048 X 12 bit)          RAMs := 1     
+	               8K Bit	(256 X 32 bit)          RAMs := 3     
++---Muxes : 
+	   2 Input   64 Bit        Muxes := 7     
+	   2 Input   32 Bit        Muxes := 15    
+	   3 Input   32 Bit        Muxes := 1     
+	   2 Input   28 Bit        Muxes := 3     
+	   2 Input   18 Bit        Muxes := 1     
+	   2 Input   17 Bit        Muxes := 2     
+	   2 Input   16 Bit        Muxes := 6     
+	   7 Input   13 Bit        Muxes := 1     
+	   2 Input   13 Bit        Muxes := 3     
+	   4 Input   12 Bit        Muxes := 4     
+	   7 Input   12 Bit        Muxes := 1     
+	   2 Input   12 Bit        Muxes := 4     
+	   3 Input   12 Bit        Muxes := 1     
+	   7 Input   11 Bit        Muxes := 2     
+	   2 Input   11 Bit        Muxes := 4     
+	   3 Input   11 Bit        Muxes := 1     
+	   2 Input   10 Bit        Muxes := 1     
+	   2 Input    8 Bit        Muxes := 10    
+	   3 Input    8 Bit        Muxes := 1     
+	   3 Input    3 Bit        Muxes := 1     
+	   8 Input    3 Bit        Muxes := 1     
+	   2 Input    2 Bit        Muxes := 9     
+	   7 Input    2 Bit        Muxes := 2     
+	   6 Input    2 Bit        Muxes := 1     
+	   2 Input    1 Bit        Muxes := 142   
+	   3 Input    1 Bit        Muxes := 36    
+	   7 Input    1 Bit        Muxes := 7     
+	   4 Input    1 Bit        Muxes := 4     
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 220 (col length:60)
+BRAMs: 280 (col length: RAMB18 60 RAMB36 30)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
+DSP Report: Generating DSP prod0, operation Mode is: A2*B2.
+DSP Report: register p_bs_reg is absorbed into DSP prod0.
+DSP Report: register r24_q_reg is absorbed into DSP prod0.
+DSP Report: operator prod0 is absorbed into DSP prod0.
+DSP Report: Generating DSP prod1, operation Mode is: A2*B.
+DSP Report: register r24_q_reg is absorbed into DSP prod1.
+DSP Report: operator prod1 is absorbed into DSP prod1.
+WARNING: [Synth 8-7129] Port fix_abort in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_sprt[15] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_sprt[14] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_sprt[13] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_sprt[12] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_sprt[11] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_sprt[10] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_sprt[9] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_sprt[8] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_sprt[7] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_sprt[6] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_sprt[5] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_sprt[4] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_sprt[3] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_sprt[2] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_sprt[1] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_sprt[0] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_fix[15] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_fix[14] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_fix[13] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_fix[12] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_fix[11] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_fix[10] in module pe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port n_fix[9] in module pe_top is either unconnected or has no load
+INFO: [Common 17-14] Message 'Synth 8-7129' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Synth 8-3971] The signal "inst/u_core/u_pe/u_bkey/g_disc.dmem_reg" was recognized as a true dual port RAM template.
+INFO: [Synth 8-3971] The signal "inst/u_core/u_pe/u_samp/pmem_reg" was recognized as a true dual port RAM template.
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:32 ; elapsed = 00:00:34 . Memory (MB): peak = 1626.246 ; gain = 695.664
+---------------------------------------------------------------------------------
+ Sort Area is  prod0_2 : 0 0 : 2133 2133 : Used 1 time 0
+ Sort Area is  prod1_0 : 0 0 : 2120 2120 : Used 1 time 0
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+
+Block RAM: Preliminary Mapping Report (see note below)
++------------+-----------------------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+|Module Name | RTL Object                  | PORT A (Depth x Width) | W | R | PORT B (Depth x Width) | W | R | Ports driving FF | RAMB18 | RAMB36 | 
++------------+-----------------------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+|inst/u_core | u_pe/u_akey/mem_reg         | 256 x 32(READ_FIRST)   | W |   | 256 x 32(WRITE_FIRST)  |   | R | Port A and B     | 1      | 0      | 
+|inst/u_core | u_pe/u_bkey/mem_reg         | 256 x 32(READ_FIRST)   | W |   | 256 x 32(WRITE_FIRST)  |   | R | Port A and B     | 1      | 0      | 
+|inst/u_core | u_pe/u_bkey/g_disc.dmem_reg | 256 x 32(READ_FIRST)   | W | R | 256 x 32(READ_FIRST)   | W |   | Port A and B     | 0      | 1      | 
+|inst/u_core | u_pe/u_samp/pmem_reg        | 4 K x 12(READ_FIRST)   | W | R | 4 K x 12(READ_FIRST)   | W | R | Port A and B     | 1      | 1      | 
+|inst/u_core | u_pe/u_samp/imem_reg        | 2 K x 12(READ_FIRST)   | W |   | 2 K x 12(WRITE_FIRST)  |   | R | Port A and B     | 0      | 1      | 
++------------+-----------------------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+
+Note: The table above is a preliminary report that shows the Block RAMs at the current stage of the synthesis flow. Some Block RAMs may be reimplemented as non Block RAM primitives later in the synthesis flow. Multiple instantiated Block RAMs are reported only once. 
+
+DSP: Preliminary Mapping Report (see note below. The ' indicates corresponding REG is set)
++------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|Module Name | DSP Mapping | A Size | B Size | C Size | D Size | P Size | AREG | BREG | CREG | DREG | ADREG | MREG | PREG | 
++------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|sampler     | A2*B2       | 24     | 13     | -      | -      | 37     | 1    | 1    | -    | -    | -     | 0    | 0    | 
+|sampler     | A2*B        | 24     | 13     | -      | -      | 37     | 1    | 0    | -    | -    | -     | 0    | 0    | 
++------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+
+Note: The table above is a preliminary report that shows the DSPs inferred at the current stage of the synthesis flow. Some DSP may be reimplemented as non DSP primitives later in the synthesis flow. Multiple instantiated DSPs are reported only once.
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:37 ; elapsed = 00:00:40 . Memory (MB): peak = 1626.246 ; gain = 695.664
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:38 ; elapsed = 00:00:40 . Memory (MB): peak = 1626.246 ; gain = 695.664
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+
+Block RAM: Final Mapping Report
++------------+-----------------------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+|Module Name | RTL Object                  | PORT A (Depth x Width) | W | R | PORT B (Depth x Width) | W | R | Ports driving FF | RAMB18 | RAMB36 | 
++------------+-----------------------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+|inst/u_core | u_pe/u_akey/mem_reg         | 256 x 32(READ_FIRST)   | W |   | 256 x 32(WRITE_FIRST)  |   | R | Port A and B     | 1      | 0      | 
+|inst/u_core | u_pe/u_bkey/mem_reg         | 256 x 32(READ_FIRST)   | W |   | 256 x 32(WRITE_FIRST)  |   | R | Port A and B     | 1      | 0      | 
+|inst/u_core | u_pe/u_bkey/g_disc.dmem_reg | 256 x 32(READ_FIRST)   | W | R | 256 x 32(READ_FIRST)   | W |   | Port A and B     | 0      | 1      | 
+|inst/u_core | u_pe/u_samp/pmem_reg        | 4 K x 12(READ_FIRST)   | W | R | 4 K x 12(READ_FIRST)   | W | R | Port A and B     | 1      | 1      | 
+|inst/u_core | u_pe/u_samp/imem_reg        | 2 K x 12(READ_FIRST)   | W |   | 2 K x 12(WRITE_FIRST)  |   | R | Port A and B     | 0      | 1      | 
++------------+-----------------------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+INFO: [Synth 8-7052] The timing for the instance inst/u_core/u_pe/u_akey/mem_reg (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance inst/u_core/u_pe/u_bkey/mem_reg (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance inst/u_core/u_pe/u_bkey/g_disc.dmem_reg (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance inst/u_core/u_pe/u_samp/pmem_reg_0 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance inst/u_core/u_pe/u_samp/pmem_reg_0 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance inst/u_core/u_pe/u_samp/pmem_reg_1 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance inst/u_core/u_pe/u_samp/pmem_reg_1 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance inst/u_core/u_pe/u_samp/imem_reg (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:39 ; elapsed = 00:00:41 . Memory (MB): peak = 1626.246 ; gain = 695.664
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:00:42 ; elapsed = 00:00:44 . Memory (MB): peak = 1626.246 ; gain = 695.664
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:42 ; elapsed = 00:00:44 . Memory (MB): peak = 1626.246 ; gain = 695.664
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:42 ; elapsed = 00:00:44 . Memory (MB): peak = 1626.246 ; gain = 695.664
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:42 ; elapsed = 00:00:44 . Memory (MB): peak = 1626.246 ; gain = 695.664
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:42 ; elapsed = 00:00:44 . Memory (MB): peak = 1626.246 ; gain = 695.664
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:42 ; elapsed = 00:00:44 . Memory (MB): peak = 1626.246 ; gain = 695.664
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+DSP Final Report (the ' indicates corresponding REG is set)
++------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|Module Name | DSP Mapping | A Size | B Size | C Size | D Size | P Size | AREG | BREG | CREG | DREG | ADREG | MREG | PREG | 
++------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|sampler     | A'*B'       | 24     | 13     | -      | -      | 37     | 1    | 1    | -    | -    | -     | 0    | 0    | 
+|sampler     | A'*B        | 24     | 13     | -      | -      | 37     | 1    | 0    | -    | -    | -     | 0    | 0    | 
++------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+
+
+Report BlackBoxes: 
++-+--------------+----------+
+| |BlackBox name |Instances |
++-+--------------+----------+
++-+--------------+----------+
+
+Report Cell Usage: 
++------+---------+------+
+|      |Cell     |Count |
++------+---------+------+
+|1     |CARRY4   |   565|
+|2     |DSP48E1  |     2|
+|4     |LUT1     |   146|
+|5     |LUT2     |   549|
+|6     |LUT3     |   385|
+|7     |LUT4     |   907|
+|8     |LUT5     |   576|
+|9     |LUT6     |  1524|
+|10    |MUXF7    |   356|
+|11    |MUXF8    |    95|
+|12    |RAMB18E1 |     3|
+|14    |RAMB36E1 |     3|
+|17    |FDRE     |  3719|
+|18    |FDSE     |   411|
++------+---------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:42 ; elapsed = 00:00:44 . Memory (MB): peak = 1626.246 ; gain = 695.664
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 44 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:32 ; elapsed = 00:00:42 . Memory (MB): peak = 1626.246 ; gain = 589.293
+Synthesis Optimization Complete : Time (s): cpu = 00:00:42 ; elapsed = 00:00:44 . Memory (MB): peak = 1626.246 ; gain = 695.664
+INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.060 . Memory (MB): peak = 1626.246 ; gain = 0.000
+INFO: [Netlist 29-17] Analyzing 1024 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+WARNING: [Constraints 18-5572] Instance inst/u_core/u_dbg/jd_reg[0] has IOB constraint set, However, the instance does not seem to have valid I/O connection to be placed into I/O. The constraint on the instance will be ignored.
+WARNING: [Constraints 18-5572] Instance inst/u_core/u_dbg/jd_reg[1] has IOB constraint set, However, the instance does not seem to have valid I/O connection to be placed into I/O. The constraint on the instance will be ignored.
+WARNING: [Constraints 18-5572] Instance inst/u_core/u_dbg/jd_reg[2] has IOB constraint set, However, the instance does not seem to have valid I/O connection to be placed into I/O. The constraint on the instance will be ignored.
+WARNING: [Constraints 18-5572] Instance inst/u_core/u_dbg/jd_reg[3] has IOB constraint set, However, the instance does not seem to have valid I/O connection to be placed into I/O. The constraint on the instance will be ignored.
+WARNING: [Constraints 18-5572] Instance inst/u_core/u_dbg/jd_reg[4] has IOB constraint set, However, the instance does not seem to have valid I/O connection to be placed into I/O. The constraint on the instance will be ignored.
+WARNING: [Constraints 18-5572] Instance inst/u_core/u_dbg/jd_reg[5] has IOB constraint set, However, the instance does not seem to have valid I/O connection to be placed into I/O. The constraint on the instance will be ignored.
+WARNING: [Constraints 18-5572] Instance inst/u_core/u_dbg/jd_reg[6] has IOB constraint set, However, the instance does not seem to have valid I/O connection to be placed into I/O. The constraint on the instance will be ignored.
+WARNING: [Constraints 18-5572] Instance inst/u_core/u_dbg/jd_reg[7] has IOB constraint set, However, the instance does not seem to have valid I/O connection to be placed into I/O. The constraint on the instance will be ignored.
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 1626.246 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+The system cannot find the path specified.
+Synth Design complete | Checksum: a87d88a6
+INFO: [Common 17-83] Releasing license: Synthesis
+106 Infos, 109 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:47 ; elapsed = 00:00:49 . Memory (MB): peak = 1626.246 ; gain = 1114.859
+Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.008 . Memory (MB): peak = 1626.246 ; gain = 0.000
+INFO: [Common 17-1381] The checkpoint 'C:/Users/Admin/Desktop/QBER_Estimator/QBER_Estimator.runs/design_1_qber_pl_0_0_synth_1/design_1_qber_pl_0_0.dcp' has been generated.
+INFO: [Coretcl 2-1648] Added synthesis output to IP cache for IP design_1_qber_pl_0_0, cache-ID = e12628966acbc541
+INFO: [Coretcl 2-1174] Renamed 32 cell refs.
+Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.008 . Memory (MB): peak = 1626.246 ; gain = 0.000
+INFO: [Common 17-1381] The checkpoint 'C:/Users/Admin/Desktop/QBER_Estimator/QBER_Estimator.runs/design_1_qber_pl_0_0_synth_1/design_1_qber_pl_0_0.dcp' has been generated.
+INFO: [runtcl-4] Executing : report_utilization -file design_1_qber_pl_0_0_utilization_synth.rpt -pb design_1_qber_pl_0_0_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Thu Nov 26 16:07:24 2026...

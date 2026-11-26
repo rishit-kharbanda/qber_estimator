@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QBER estimator - live results</title>
+<!--
+  host/live_plot.html - live plots of the ZedBoard's CSV output, no Python needed (Part 4).
+
+  Open this file in Microsoft Edge or Google Chrome (they support Web Serial).
+    - "Connect to board": pick the ZedBoard's COM port (close PuTTY first: only one
+      program can open a COM port). Every CSV line the board prints is plotted as
+      it arrives. "Save log" downloads everything received, ready for host/plot.py.
+    - "Open log files": plot PuTTY logs or saved logs (works in any browser).
+  Charts: bits revealed per decision vs QBER (SPRT, fixed test, Wald's
+  prediction) and processed rate vs input rate (FPGA, ARM).
+  Columns: INTERFACES.md section 6 (sw/uart_log.c). Self-contained, works offline.
+-->
+<style>
+  :root {
+    --surface: #ffffff; --page: #f7f6f3; --ink: #22221f; --ink2: #5f5e58; --muted: #8a8983;
+    --grid: #e6e5e0; --line: #d9d8d2; --ref: #6b6a63;
+    --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 14px/1.4 system-ui, "Segoe UI", Roboto, sans-serif; color: var(--ink); background: var(--page); }
+  header { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 12px 20px;
+           background: var(--surface); border-bottom: 1px solid var(--line); }
+  header h1 { font-size: 17px; font-weight: 600; margin: 0 12px 0 0; }
+  button, label.btn { font: inherit; padding: 6px 12px; border: 1px solid var(--line); border-radius: 6px;
+           background: var(--surface); color: var(--ink); cursor: pointer; }
+  button.primary { background: var(--ink); color: #fff; border-color: var(--ink); }
+  button:disabled { opacity: .45; cursor: default; }
+  #status { margin-left: auto; color: var(--ink2); font-size: 13px; }
+  #status b { color: var(--ink); font-weight: 600; }
+  main { padding: 16px 20px 28px; max-width: 1400px; margin: 0 auto; }
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 14px; }
+  .tile { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; min-height: 104px; }
+  .tile h3 { margin: 0 0 4px; font-size: 12px; font-weight: 500; color: var(--ink2); text-transform: uppercase; letter-spacing: .04em; }
+  .tile .big { font-size: 26px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .tile .sub { color: var(--ink2); font-size: 13px; font-variant-numeric: tabular-nums; }
+  .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(520px, 100%), 1fr)); gap: 14px; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px 8px; position: relative; }
+  .card h2 { font-size: 14px; font-weight: 600; margin: 0; }
+  .card .note { color: var(--ink2); font-size: 12.5px; margin: 2px 0 6px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 12.5px; color: var(--ink2); margin: 4px 0 2px; }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .legend svg { display: inline-block; width: auto; flex: none; }
+  svg { display: block; width: 100%; height: auto; overflow: visible; }
+  svg text { font: 11.5px system-ui, "Segoe UI", sans-serif; fill: var(--ink2); }
+  svg text.lab { fill: var(--ink); font-size: 12px; }
+  svg text.empty { font-size: 13px; fill: var(--muted); }
+  #tip { position: fixed; pointer-events: none; background: var(--ink); color: #fff; font-size: 12.5px; padding: 6px 9px;
+         border-radius: 6px; opacity: 0; transition: opacity .08s; white-space: pre; z-index: 10; font-variant-numeric: tabular-nums; }
+  table { border-collapse: collapse; width: 100%; font-size: 12.5px; font-variant-numeric: tabular-nums; }
+  th, td { padding: 5px 8px; text-align: right; border-bottom: 1px solid var(--grid); white-space: nowrap; }
+  th { color: var(--ink2); font-weight: 500; }
+  th:first-child, td:first-child, th:nth-child(2), td:nth-child(2) { text-align: left; }
+  .tablewrap { overflow-x: auto; }
+  #console { font: 12px ui-monospace, Consolas, monospace; color: var(--ink2); white-space: pre-wrap; overflow-wrap: anywhere; max-height: 260px; overflow-y: auto; margin: 4px 0 6px; }
+  .row2 { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 14px; margin-top: 14px; }
+  @media (max-width: 900px) { .row2 { grid-template-columns: 1fr; } .grid2 { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>QBER estimator &middot; live results</h1>
+  <button id="bConnect" class="primary">Connect to board</button>
+  <button id="bDisconnect" disabled>Disconnect</button>
+  <label class="btn">Open log files<input id="fileIn" type="file" multiple accept=".log,.csv,.txt" hidden></label>
+  <button id="bSave" disabled>Save log</button>
+  <button id="bClear">Clear</button>
+  <div id="status">No data yet</div>
+</header>
+
+<main>
+  <section class="tiles" id="tiles"></section>
+
+  <section class="grid2">
+    <div class="card">
+      <h2>Bits revealed per decision vs error rate</h2>
+      <div class="note" id="n1">Each point averages one run (Graph 1 sweep, RUN mode, reliability). Lower is better: fewer key bits sacrificed.</div>
+      <div class="legend" id="lg1"></div>
+      <div id="c1"></div>
+    </div>
+    <div class="card">
+      <h2>Processed rate vs input rate</h2>
+      <div class="note">Measured live: the FPGA processes every photon; the ARM, fed the same photons through the FIFO, falls behind.</div>
+      <div class="legend" id="lg2"></div>
+      <div id="c2"></div>
+    </div>
+  </section>
+
+  <section class="row2">
+    <div class="card">
+      <h2>Recent runs</h2>
+      <div class="tablewrap"><table id="tbl"></table></div>
+    </div>
+    <div class="card">
+      <h2>Board messages</h2>
+      <div id="console"></div>
+    </div>
+  </section>
+</main>
+<div id="tip"></div>
+
+<script>
+"use strict";
+/* ------------------------------------------------------------------ data */
+const COLS = ("mode,preset,p_noise,f_eve,rate_div,block_size,run_s,photons_in,photons_proc,cycles," +
+  "pl_dropped,sifted,sifted_errs,blocks_done,sum_n_sprt,sum_n_fix,abort_sprt,abort_fix," +
+  "trunc_sprt,key_sprt,key_fix,disclosed,key_out,lat_max,stream_words_sent," +
+  "stream_words_dropped,arm_photons,arm_blocks,arm_sum_n_sprt,arm_abort_sprt,arm_match").split(",");
+const MODES = new Set(["single", "g1", "rel", "rate", "long"]);
+const P0 = 0.03, P1 = 0.11, ALPHA = 0.01, BETA = 0.01, FIX_N = 202;
+const MIN_BLOCKS = 100;                      // runs with fewer blocks are not averaged in chart 1
+const C = { sprt: "#2a78d6", fix: "#eb6834", curt: "#1baf7a", ref: "#6b6a63" };
+
+let rows = [], rawLines = [], comments = [];
+let pending = "";
+
+function parseLine(line) {
+  line = line.replace(/\r/g, "").trim();
+  if (!line) return;
+  rawLines.push(line);
+  if (line.startsWith("#")) { comments.push(line); if (comments.length > 200) comments.shift(); return; }
+  const p = line.split(",");
+  if (!MODES.has(p[0]) || p.length !== COLS.length) return;
+  const r = {};
+  COLS.forEach((k, i) => r[k] = i < 2 ? p[i] : Number(p[i]));
+  if (COLS.slice(2).some(k => !isFinite(r[k]))) return;
+  rows.push(r);
+}
+
+function ingest(text) {                      // also used for files; keeps a partial last line
+  pending += text;
+  const parts = pending.split("\n");
+  pending = parts.pop();
+  parts.forEach(parseLine);
+  scheduleRender();
+}
+window.ingest = ingest;
+
+/* ------------------------------------------------------------------ Wald's ASN (same as host/plot.py) */
+function waldAsn(p, p0 = P0, p1 = P1, a = ALPHA, b = BETA) {
+  const A = Math.log((1 - b) / a), B = Math.log(b / (1 - a));
+  const ze = Math.log(p1 / p0), zo = Math.log((1 - p1) / (1 - p0));
+  const mu = p * ze + (1 - p) * zo;
+  if (Math.abs(mu) < 1e-9) return -A * B / (p * ze * ze + (1 - p) * zo * zo);
+  const f = h => p * Math.exp(h * ze) + (1 - p) * Math.exp(h * zo) - 1;
+  let lo = mu < 0 ? 1e-6 : -60, hi = mu < 0 ? 60 : -1e-6;
+  for (let i = 0; i < 200; i++) { const m = (lo + hi) / 2; if ((f(m) > 0) === (f(hi) > 0)) hi = m; else lo = m; }
+  const h = (lo + hi) / 2, eA = Math.exp(h * A), eB = Math.exp(h * B);
+  const L = (eA - 1) / (eA - eB);
+  return (L * B + (1 - L) * A) / mu;
+}
+
+/* ------------------------------------------------------------------ helpers */
+const $ = id => document.getElementById(id);
+const fmt = (v, d = 1) => isFinite(v) ? v.toLocaleString("en-GB", { minimumFractionDigits: d, maximumFractionDigits: d }) : "–";
+const int = v => isFinite(v) ? Math.round(v).toLocaleString("en-GB") : "–";
+const qMeas = r => r.sifted > 0 ? 100 * r.sifted_errs / r.sifted : NaN;
+function qTrue(r) { const p = r.p_noise / 65536, e = 0.25 * r.f_eve / 65536; return 100 * (e + p - 2 * e * p); }
+const mps = (n, r) => r.run_s > 0 ? n / r.run_s / 1e6 : NaN;
+const esc = s => String(s).replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+
+function niceTicks(max, n = 5) {
+  const raw = max / n, mag = Math.pow(10, Math.floor(Math.log10(raw)));
+  const step = [1, 2, 2.5, 5, 10].map(s => s * mag).find(s => raw <= s);
+  const ticks = []; for (let v = 0; v <= max + 1e-9; v += step) ticks.push(+v.toFixed(10));
+  return ticks;
+}
+
+/* ------------------------------------------------------------------ SVG chart */
+const tip = $("tip");
+function showTip(ev, text) { tip.textContent = text; tip.style.opacity = 1; moveTip(ev); }
+function moveTip(ev) {
+  const x = Math.min(ev.clientX + 14, window.innerWidth - tip.offsetWidth - 8);
+  tip.style.left = x + "px"; tip.style.top = (ev.clientY + 14) + "px";
+}
+function hideTip() { tip.style.opacity = 0; }
+
+function markerPath(kind, x, y, s = 4.5) {
+  if (kind === "square") return `M${x - s},${y - s}h${2 * s}v${2 * s}h${-2 * s}z`;
+  if (kind === "triangle") return `M${x},${y - s * 1.2}L${x + s * 1.15},${y + s * 0.85}H${x - s * 1.15}z`;
+  return `M${x - s},${y}a${s},${s} 0 1,0 ${2 * s},0a${s},${s} 0 1,0 ${-2 * s},0`;
+}
+
+function drawChart(host, legendHost, cfg) {
+  const W = 640, H = 360, m = { l: 56, r: 92, t: 12, b: 44 };
+  const pw = W - m.l - m.r, ph = H - m.t - m.b;
+  const xs = v => m.l + pw * v / cfg.xmax, ys = v => m.t + ph * (1 - v / cfg.ymax);
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(cfg.aria)}">`;
+  for (const t of niceTicks(cfg.ymax)) {
+    s += `<line x1="${m.l}" x2="${m.l + pw}" y1="${ys(t)}" y2="${ys(t)}" stroke="var(--grid)"/>`;
+    s += `<text x="${m.l - 8}" y="${ys(t) + 4}" text-anchor="end">${t}</text>`;
+  }
+  for (const t of niceTicks(cfg.xmax, 6)) {
+    s += `<text x="${xs(t)}" y="${m.t + ph + 18}" text-anchor="middle">${t}</text>`;
+  }
+  s += `<line x1="${m.l}" x2="${m.l + pw}" y1="${m.t + ph}" y2="${m.t + ph}" stroke="var(--muted)"/>`;
+  s += `<text x="${m.l + pw / 2}" y="${H - 6}" text-anchor="middle">${esc(cfg.xlabel)}</text>`;
+  s += `<text transform="translate(14,${m.t + ph / 2}) rotate(-90)" text-anchor="middle">${esc(cfg.ylabel)}</text>`;
+  for (const ref of cfg.refs || []) {
+    const d = ref.pts.filter(p => p[0] <= cfg.xmax && p[1] <= cfg.ymax * 1.02)
+      .map((p, i) => `${i ? "L" : "M"}${xs(p[0]).toFixed(1)},${ys(p[1]).toFixed(1)}`).join("");
+    if (d) s += `<path d="${d}" fill="none" stroke="${C.ref}" stroke-width="1.6" stroke-dasharray="2 4" stroke-linecap="round"/>`;
+  }
+  const hits = [];
+  let empty = true;
+  for (const se of cfg.series) {
+    const pts = se.points.filter(p => isFinite(p.x) && isFinite(p.y));
+    if (!pts.length) continue;
+    empty = false;
+    if (pts.length > 1) {
+      const d = pts.map((p, i) => `${i ? "L" : "M"}${xs(p.x).toFixed(1)},${ys(p.y).toFixed(1)}`).join("");
+      s += `<path d="${d}" fill="none" stroke="${se.color}" stroke-width="2" ${se.dash ? `stroke-dasharray="${se.dash}"` : ""} stroke-linejoin="round"/>`;
+    }
+    for (const p of pts) {
+      s += `<path d="${markerPath(se.marker, xs(p.x), ys(p.y))}" fill="${se.color}" stroke="var(--surface)" stroke-width="2"/>`;
+      hits.push({ x: xs(p.x), y: ys(p.y), tip: p.tip });
+    }
+    const last = pts[pts.length - 1];
+    if (se.label) s += `<text class="lab" x="${xs(last.x) + 9}" y="${ys(last.y) + 4 + (se.dy || 0)}">${esc(se.label)}</text>`;
+  }
+  if (empty) s += `<text class="empty" x="${m.l + pw / 2}" y="${m.t + ph / 2}" text-anchor="middle">${esc(cfg.emptyText)}</text>`;
+  hits.forEach((h, i) => s += `<circle data-i="${i}" cx="${h.x}" cy="${h.y}" r="11" fill="transparent"/>`);
+  s += `</svg>`;
+  host.innerHTML = s;
+  host.querySelectorAll("circle[data-i]").forEach(c => {
+    const h = hits[+c.dataset.i];
+    c.addEventListener("mouseenter", ev => showTip(ev, h.tip));
+    c.addEventListener("mousemove", moveTip);
+    c.addEventListener("mouseleave", hideTip);
+  });
+  const sw = (se) => se.ref
+    ? `<svg width="22" height="10"><line x1="1" x2="21" y1="5" y2="5" stroke="${C.ref}" stroke-width="1.6" stroke-dasharray="2 4" stroke-linecap="round"/></svg>`
+    : `<svg width="22" height="12"><line x1="1" x2="21" y1="6" y2="6" stroke="${se.color}" stroke-width="2" ${se.dash ? `stroke-dasharray="${se.dash}"` : ""}/><path d="${markerPath(se.marker, 11, 6, 4)}" fill="${se.color}"/></svg>`;
+  legendHost.innerHTML = cfg.legend.map(se => `<span>${sw(se)}${esc(se.name)}</span>`).join("");
+}
+
+/* ------------------------------------------------------------------ chart 1: bits revealed vs QBER */
+function chart1() {
+  const groups = new Map();
+  for (const r of rows) {
+    if (!["g1", "single", "rel"].includes(r.mode) || r.blocks_done < MIN_BLOCKS || r.sifted <= 0) continue;
+    if (!r.preset.startsWith("bb84") || r.preset.includes("readonly") || r.preset.includes("curtail")) continue;
+    const key = `${r.preset}|${r.p_noise}|${r.f_eve}`;
+    const g = groups.get(key) || { preset: r.preset, blocks: 0, sprt: 0, fix: 0, err: 0, sif: 0, runs: 0 };
+    g.blocks += r.blocks_done; g.sprt += r.sum_n_sprt; g.fix += r.sum_n_fix;
+    g.err += r.sifted_errs; g.sif += r.sifted; g.runs++;
+    groups.set(key, g);
+  }
+  const plain = [];
+  for (const g of groups.values()) {
+    const q = 100 * g.err / g.sif, pt = { q, sprt: g.sprt / g.blocks, fix: g.fix / g.blocks, blocks: g.blocks };
+    plain.push(pt);
+  }
+  plain.sort((a, b) => a.q - b.q);
+  const qmax = Math.max(12, ...plain.map(p => p.q)) * 1.08;
+  const theory = []; for (let i = 0; i <= 240; i++) { const q = 0.05 + i * (qmax - 0.05) / 240; theory.push([q, waldAsn(q / 100)]); }
+  const tipOf = (p, what, v) => `QBER ${fmt(p.q, 2)} %\n${what}: ${fmt(v, 1)} bits per decision\n${int(p.blocks)} blocks`;
+  const series = [
+    { name: `Fixed sample (${FIX_N} bits)`, color: C.fix, marker: "square", dash: "6 4", label: plain.length ? "Fixed" : "",
+      points: plain.map(p => ({ x: p.q, y: p.fix, tip: tipOf(p, "Fixed test", p.fix) })) },
+    { name: "SPRT (measured on the FPGA)", color: C.sprt, marker: "circle", label: plain.length ? "SPRT" : "",
+      points: plain.map(p => ({ x: p.q, y: p.sprt, tip: tipOf(p, "SPRT", p.sprt) + `\nsaved ${fmt(100 * (1 - p.sprt / p.fix), 1)} % vs fixed` })) },
+  ];
+  const legend = [series[1], series[0], { name: "SPRT, Wald's prediction", ref: true }];
+  drawChart($("c1"), $("lg1"), {
+    xmax: qmax, ymax: 240, xlabel: "Measured QBER (%)", ylabel: "Bits revealed per decision",
+    aria: "Bits revealed per decision against QBER for the SPRT and the fixed test",
+    refs: [{ pts: theory }], series, legend,
+    emptyText: "Waiting for runs: press F in RUN mode, or run the measurement suite",
+  });
+}
+
+/* ------------------------------------------------------------------ chart 2: rate */
+function chart2() {
+  const rr = rows.filter(r => r.mode === "rate" && r.run_s > 0);
+  const est = rr.filter(r => !r.preset.endsWith("readonly")).sort((a, b) => a.photons_in / a.run_s - b.photons_in / b.run_s);
+  const ro = rr.filter(r => r.preset.endsWith("readonly")).sort((a, b) => a.photons_in / a.run_s - b.photons_in / b.run_s);
+  const xmax = Math.max(100, ...rr.map(r => mps(r.photons_in, r))) * 1.04;
+  const tipOf = (r, what, v) => {
+    const tot = r.stream_words_sent + r.stream_words_dropped;
+    return `Input ${fmt(mps(r.photons_in, r), 1)} M photons/s\n${what}: ${fmt(v, 1)} M photons/s` +
+      (what.startsWith("ARM") ? `\nstream dropped ${fmt(tot ? 100 * r.stream_words_dropped / tot : 0, 1)} %` : `\nPL dropped ${int(r.pl_dropped)}`);
+  };
+  const last = a => a.length ? a[a.length - 1] : null;
+  const lf = last(est), lr = last(ro);
+  const series = [
+    { name: "ARM, reading the FIFO only", color: C.curt, marker: "triangle", dash: "7 3 2 3",
+      label: lr ? `ARM read only ${fmt(mps(lr.arm_photons, lr), 1)}` : "", dy: -8,
+      points: ro.map(r => ({ x: mps(r.photons_in, r), y: mps(r.arm_photons, r), tip: tipOf(r, "ARM read only", mps(r.arm_photons, r)) })) },
+    { name: "ARM, reading + estimating (C)", color: C.fix, marker: "square", dash: "6 4",
+      label: lf ? `ARM ${fmt(mps(lf.arm_photons, lf), 1)}` : "", dy: lr ? 8 : 0,
+      points: est.map(r => ({ x: mps(r.photons_in, r), y: mps(r.arm_photons, r), tip: tipOf(r, "ARM estimating", mps(r.arm_photons, r)) })) },
+    { name: "FPGA estimator", color: C.sprt, marker: "circle",
+      label: lf ? `FPGA ${fmt(mps(lf.photons_proc, lf), 0)}` : "",
+      points: est.map(r => ({ x: mps(r.photons_in, r), y: mps(r.photons_proc, r), tip: tipOf(r, "FPGA", mps(r.photons_proc, r)) })) },
+  ];
+  const legend = [series[2], series[1]].concat(ro.length ? [series[0]] : []).concat([{ name: "Ideal (nothing dropped)", ref: true }]);
+  drawChart($("c2"), $("lg2"), {
+    xmax, ymax: xmax, xlabel: "Input rate (M photons/s)", ylabel: "Processed rate (M photons/s)",
+    aria: "Processed rate against input rate for the FPGA and the ARM",
+    refs: [{ pts: [[0, 0], [xmax, xmax]] }], series, legend,
+    emptyText: "Waiting for a rate sweep: hold F for 1 s, or run the measurement suite",
+  });
+}
+
+/* ------------------------------------------------------------------ tiles, table, console */
+function tiles() {
+  const r = rows[rows.length - 1];
+  const t = (title, big, sub) => `<div class="tile"><h3>${title}</h3><div class="big">${big}</div><div class="sub">${sub}</div></div>`;
+  if (!r) { $("tiles").innerHTML = t("Latest run", "–", "Connect to the board or open a log file"); return; }
+  const n = r.blocks_done, qm = qMeas(r), qt = qTrue(r);
+  const sprtB = n ? r.sum_n_sprt / n : NaN, fixB = n ? r.sum_n_fix / n : NaN;
+  const modeName = { single: "Demo run", g1: "Graph 1 sweep", rel: "Reliability", rate: "Rate sweep", long: "Sustained run" }[r.mode];
+  let out = t("Latest run", esc(modeName), `${esc(r.preset)} · ${int(n)} block${n === 1 ? "" : "s"} · ${fmt(r.run_s, 2)} s`);
+  out += t("Error rate (QBER)", `${fmt(qm, 2)} %`, `set: ${fmt(qt, 2)} % (noise ${fmt(100 * r.p_noise / 65536, 1)} %, Eve ${fmt(100 * r.f_eve / 65536, 0)} %)`);
+  out += t("Bits revealed per decision", `${fmt(sprtB, 1)} <span class="sub">vs ${fmt(fixB, 1)}</span>`,
+           isFinite(sprtB) && fixB > 0 ? `SPRT vs fixed test · ${fmt(100 * (1 - sprtB / fixB), 1)} % saved` : "SPRT vs fixed test");
+  if (n === 1) {
+    const d = a => a ? "✕ ABORT" : "✓ SAFE";
+    out += t("Decision (this block)", `SPRT ${d(r.abort_sprt)}`, `Fixed test ${d(r.abort_fix)}`);
+  } else if (n > 1) {
+    const safe = qt / 100 < (P0 + P1) / 2;
+    const w = a => 100 * (safe ? a : n - a) / n;
+    out += t(safe ? "Wrong aborts (channel is safe)" : "Wrong accepts (channel is unsafe)",
+             `${fmt(w(r.abort_sprt), 2)} %`, `SPRT · fixed test ${fmt(w(r.abort_fix), 2)} % · target&nbsp;≤&nbsp;1&nbsp;%`);
+  }
+  const fpga = mps(r.photons_proc, r), arm = r.arm_photons > 0 ? mps(r.arm_photons, r) : NaN;
+  out += t("Throughput", `${fmt(fpga, 1)} <span class="sub">M photons/s FPGA</span>`,
+           isFinite(arm) ? `ARM ${fmt(arm, 1)} M/s · ${int(r.pl_dropped)} dropped in the PL` : `${int(r.pl_dropped)} dropped in the PL`);
+  $("tiles").innerHTML = out;
+}
+
+function table() {
+  const head = ["Mode", "Preset", "QBER %", "Blocks", "SPRT bits", "Fixed bits", "Aborts SPRT / fixed", "FPGA M/s", "ARM M/s", "Dropped"];
+  const body = rows.slice(-12).reverse().map(r => {
+    const n = r.blocks_done;
+    return `<tr><td>${esc(r.mode)}</td><td>${esc(r.preset)}</td><td>${fmt(qMeas(r), 2)}</td><td>${int(n)}</td>` +
+      `<td>${n ? fmt(r.sum_n_sprt / n, 1) : "–"}</td><td>${n ? fmt(r.sum_n_fix / n, 1) : "–"}</td>` +
+      `<td>${int(r.abort_sprt)} / ${int(r.abort_fix)}</td><td>${fmt(mps(r.photons_proc, r), 1)}</td>` +
+      `<td>${r.arm_photons > 0 ? fmt(mps(r.arm_photons, r), 1) : "–"}</td><td>${int(r.pl_dropped)}</td></tr>`;
+  }).join("");
+  $("tbl").innerHTML = `<thead><tr>${head.map(h => `<th>${h}</th>`).join("")}</tr></thead><tbody>${body ||
+    `<tr><td colspan="10" style="text-align:left;color:var(--muted)">No runs yet</td></tr>`}</tbody>`;
+}
+
+let renderQueued = false;
+function scheduleRender() {
+  if (renderQueued) return;
+  renderQueued = true;
+  requestAnimationFrame(() => { renderQueued = false; render(); });
+}
+function render() {
+  chart1(); chart2(); tiles(); table();
+  const con = $("console");
+  con.textContent = comments.slice(-30).join("\n");
+  con.scrollTop = con.scrollHeight;
+  $("bSave").disabled = rawLines.length === 0;
+  if (!port) setStatus(rows.length ? `<b>${rows.length}</b> runs loaded` : "No data yet");
+}
+function setStatus(html) { $("status").innerHTML = html; }
+
+/* ------------------------------------------------------------------ Web Serial */
+let port = null, reader = null;
+async function connect() {
+  if (!("serial" in navigator)) {
+    setStatus("This browser has no Web Serial: open this page in <b>Edge</b> or <b>Chrome</b>, or use “Open log files”");
+    return;
+  }
+  try {
+    port = await navigator.serial.requestPort();
+    await port.open({ baudRate: 115200, bufferSize: 65536 });   // default 255 bytes can overflow during a redraw
+  } catch (e) {
+    port = null;
+    setStatus(`Could not open the port (${esc(e.message)}). Close PuTTY first: only one program can use the COM port`);
+    return;
+  }
+  $("bConnect").disabled = true; $("bDisconnect").disabled = false;
+  setStatus("<b>Connected</b> at 115200 baud · run something on the board");
+  const decoder = new TextDecoderStream();
+  const closed = port.readable.pipeTo(decoder.writable).catch(() => {});
+  reader = decoder.readable.getReader();
+  try {
+    for (;;) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      if (value) { ingest(value); setStatus(`<b>Connected</b> · ${rows.length} runs received`); }
+    }
+  } catch (e) {
+    setStatus(`Connection lost (${esc(e.message)})`);
+  }
+  try { reader.releaseLock(); } catch (e) {}
+  await closed;
+  try { await port.close(); } catch (e) {}
+  port = null; reader = null;
+  $("bConnect").disabled = false; $("bDisconnect").disabled = true;
+  setStatus(`Disconnected · ${rows.length} runs`);
+}
+async function disconnect() { if (reader) { try { await reader.cancel(); } catch (e) {} } }
+
+/* ------------------------------------------------------------------ buttons */
+$("bConnect").onclick = connect;
+$("bDisconnect").onclick = disconnect;
+$("fileIn").onchange = async ev => {
+  for (const f of ev.target.files) { ingest(await f.text()); ingest("\n"); }
+  ev.target.value = "";
+};
+$("bSave").onclick = () => {
+  const d = new Date(), pad = v => String(v).padStart(2, "0");
+  const name = `qber_live_${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}_${pad(d.getHours())}${pad(d.getMinutes())}.log`;
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([rawLines.join("\r\n") + "\r\n"], { type: "text/plain" }));
+  a.download = name; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+};
+$("bClear").onclick = () => { rows = []; rawLines = []; comments = []; pending = ""; render(); };
+render();
+</script>
+</body>
+</html>

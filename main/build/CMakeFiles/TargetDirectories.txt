@@ -1,0 +1,3 @@
+C:/Users/Admin/Desktop/QBER_Estimator/main/build/CMakeFiles/main.elf.dir
+C:/Users/Admin/Desktop/QBER_Estimator/main/build/CMakeFiles/edit_cache.dir
+C:/Users/Admin/Desktop/QBER_Estimator/main/build/CMakeFiles/rebuild_cache.dir
