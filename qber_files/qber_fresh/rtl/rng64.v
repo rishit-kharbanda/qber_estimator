@@ -1,14 +1,3 @@
-// rng64.v - xorshift64 generator (shifts 13, 7, 17), one step per clock when step = 1.
-// Part 1 (Rishit). INTERFACES.md section 0.
-//
-//   rnd  = xorshift64(state), combinational. It is the random value the user
-//          consumes in a cycle where it asserts step; on that edge state <= rnd.
-//          So the k-th value used after a load is xorshift64^k(seed), as in
-//          model/qkd_model.py (Rng64.next()).
-//   load = 1: state <= seed, or ZERO_SUB if seed = 0 (xorshift sticks at 0).
-//          load wins over step.
-//   rst  : state <= ZERO_SUB (never 0).
-// The caller qualifies step with ce, so the generator only advances on ce edges.
 `timescale 1ns / 1ps
 `default_nettype none
 

@@ -4,18 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>QBER estimator - live results</title>
-<!--
-  host/live_plot.html - live plots of the ZedBoard's CSV output, no Python needed (Part 4).
 
-  Open this file in Microsoft Edge or Google Chrome (they support Web Serial).
-    - "Connect to board": pick the ZedBoard's COM port (close PuTTY first: only one
-      program can open a COM port). Every CSV line the board prints is plotted as
-      it arrives. "Save log" downloads everything received, ready for host/plot.py.
-    - "Open log files": plot PuTTY logs or saved logs (works in any browser).
-  Charts: bits revealed per decision vs QBER (SPRT, fixed test, Wald's
-  prediction) and processed rate vs input rate (FPGA, ARM).
-  Columns: INTERFACES.md section 6 (sw/uart_log.c). Self-contained, works offline.
--->
 <style>
   :root {
     --surface: #ffffff; --page: #f7f6f3; --ink: #22221f; --ink2: #5f5e58; --muted: #8a8983;
@@ -106,14 +95,14 @@
 
 <script>
 "use strict";
-/* ------------------------------------------------------------------ data */
+
 const COLS = ("mode,preset,p_noise,f_eve,rate_div,block_size,run_s,photons_in,photons_proc,cycles," +
   "pl_dropped,sifted,sifted_errs,blocks_done,sum_n_sprt,sum_n_fix,abort_sprt,abort_fix," +
   "trunc_sprt,key_sprt,key_fix,disclosed,key_out,lat_max,stream_words_sent," +
   "stream_words_dropped,arm_photons,arm_blocks,arm_sum_n_sprt,arm_abort_sprt,arm_match").split(",");
 const MODES = new Set(["single", "g1", "rel", "rate", "long"]);
 const P0 = 0.03, P1 = 0.11, ALPHA = 0.01, BETA = 0.01, FIX_N = 202;
-const MIN_BLOCKS = 100;                      // runs with fewer blocks are not averaged in chart 1
+const MIN_BLOCKS = 100;
 const C = { sprt: "#2a78d6", fix: "#eb6834", curt: "#1baf7a", ref: "#6b6a63" };
 
 let rows = [], rawLines = [], comments = [];
@@ -132,7 +121,7 @@ function parseLine(line) {
   rows.push(r);
 }
 
-function ingest(text) {                      // also used for files; keeps a partial last line
+function ingest(text) {
   pending += text;
   const parts = pending.split("\n");
   pending = parts.pop();
@@ -141,7 +130,6 @@ function ingest(text) {                      // also used for files; keeps a par
 }
 window.ingest = ingest;
 
-/* ------------------------------------------------------------------ Wald's ASN (same as host/plot.py) */
 function waldAsn(p, p0 = P0, p1 = P1, a = ALPHA, b = BETA) {
   const A = Math.log((1 - b) / a), B = Math.log(b / (1 - a));
   const ze = Math.log(p1 / p0), zo = Math.log((1 - p1) / (1 - p0));
@@ -155,7 +143,6 @@ function waldAsn(p, p0 = P0, p1 = P1, a = ALPHA, b = BETA) {
   return (L * B + (1 - L) * A) / mu;
 }
 
-/* ------------------------------------------------------------------ helpers */
 const $ = id => document.getElementById(id);
 const fmt = (v, d = 1) => isFinite(v) ? v.toLocaleString("en-GB", { minimumFractionDigits: d, maximumFractionDigits: d }) : "–";
 const int = v => isFinite(v) ? Math.round(v).toLocaleString("en-GB") : "–";
@@ -171,7 +158,6 @@ function niceTicks(max, n = 5) {
   return ticks;
 }
 
-/* ------------------------------------------------------------------ SVG chart */
 const tip = $("tip");
 function showTip(ev, text) { tip.textContent = text; tip.style.opacity = 1; moveTip(ev); }
 function moveTip(ev) {
@@ -239,7 +225,6 @@ function drawChart(host, legendHost, cfg) {
   legendHost.innerHTML = cfg.legend.map(se => `<span>${sw(se)}${esc(se.name)}</span>`).join("");
 }
 
-/* ------------------------------------------------------------------ chart 1: bits revealed vs QBER */
 function chart1() {
   const groups = new Map();
   for (const r of rows) {
@@ -275,7 +260,6 @@ function chart1() {
   });
 }
 
-/* ------------------------------------------------------------------ chart 2: rate */
 function chart2() {
   const rr = rows.filter(r => r.mode === "rate" && r.run_s > 0);
   const est = rr.filter(r => !r.preset.endsWith("readonly")).sort((a, b) => a.photons_in / a.run_s - b.photons_in / b.run_s);
@@ -308,7 +292,6 @@ function chart2() {
   });
 }
 
-/* ------------------------------------------------------------------ tiles, table, console */
 function tiles() {
   const r = rows[rows.length - 1];
   const t = (title, big, sub) => `<div class="tile"><h3>${title}</h3><div class="big">${big}</div><div class="sub">${sub}</div></div>`;
@@ -364,7 +347,6 @@ function render() {
 }
 function setStatus(html) { $("status").innerHTML = html; }
 
-/* ------------------------------------------------------------------ Web Serial */
 let port = null, reader = null;
 async function connect() {
   if (!("serial" in navigator)) {
@@ -373,7 +355,7 @@ async function connect() {
   }
   try {
     port = await navigator.serial.requestPort();
-    await port.open({ baudRate: 115200, bufferSize: 65536 });   // default 255 bytes can overflow during a redraw
+    await port.open({ baudRate: 115200, bufferSize: 65536 });
   } catch (e) {
     port = null;
     setStatus(`Could not open the port (${esc(e.message)}). Close PuTTY first: only one program can use the COM port`);
@@ -402,7 +384,6 @@ async function connect() {
 }
 async function disconnect() { if (reader) { try { await reader.cancel(); } catch (e) {} } }
 
-/* ------------------------------------------------------------------ buttons */
 $("bConnect").onclick = connect;
 $("bDisconnect").onclick = disconnect;
 $("fileIn").onchange = async ev => {

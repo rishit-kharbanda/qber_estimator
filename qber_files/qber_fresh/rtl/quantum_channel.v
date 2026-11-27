@@ -1,16 +1,3 @@
-// quantum_channel.v - intercept-resend Eve (RNG2) followed by channel noise (RNG3).
-// Part 1 (Rishit). INTERFACES.md sections 0 and 5 (P_NOISE, F_EVE).
-//
-// Per photon (RNG2 and RNG3 step once per photon, on its ce edge):
-//   Eve intercepts if RNG2[63:48] < F_EVE.  She measures in e_basis = RNG2[0]:
-//     same basis as the photon -> she gets the photon's bit
-//     other basis              -> she gets a random bit, RNG2[1]
-//   and resends that bit in HER basis.
-//   Noise flips the (possibly resent) bit if RNG3[63:48] < P_NOISE.
-// Probabilities are F_EVE/65536 and P_NOISE/65536; 0xFFFF is the largest
-// value (99.998 %), so "100 %" must be written as 0xFFFF, never 0x10000.
-// eve_hit, noise_hit, e_basis, e_bit travel with the photon for the ILA and
-// the testbench.
 `timescale 1ns / 1ps
 `default_nettype none
 
@@ -37,9 +24,9 @@ module quantum_channel #(
     output reg         e_basis,
     output reg         e_bit
 );
-    /* verilator lint_off UNUSEDSIGNAL */
-    wire [63:0] r2, r3;            // r2[63:48], r2[1:0] and r3[63:48] are used
-    /* verilator lint_on UNUSEDSIGNAL */
+
+    wire [63:0] r2, r3;
+
     wire        take = ce & in_valid;
 
     rng64 #(.ZERO_SUB(ZS_EVE)) u_eve (
@@ -47,13 +34,12 @@ module quantum_channel #(
     rng64 #(.ZERO_SUB(ZS_NOISE)) u_noise (
         .clk(clk), .rst(rst), .load(start), .seed(seed_noise), .step(take), .rnd(r3));
 
-    // Eve
     wire eve    = (r2[63:48] < f_eve);
     wire eb     = r2[0];
     wire emeas  = (eb == in_basis) ? in_bit : r2[1];
     wire bit1   = eve ? emeas : in_bit;
     wire basis1 = eve ? eb    : in_basis;
-    // noise
+
     wire flip   = (r3[63:48] < p_noise);
 
     always @(posedge clk) begin

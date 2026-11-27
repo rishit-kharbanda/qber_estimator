@@ -1,25 +1,3 @@
-// sprt_engine.v - Wald SPRT on the disclosed test-bit stream (Part 2)
-//
-// Integer log-likelihood score, scaled x256 by the ARM:
-//   error  -> score += INC_ERR  (default +333)
-//   match  -> score += INC_OK   (default  -22)
-//   score >= THR_A (+1176) -> ABORT
-//   score <= THR_B (-1176) -> ACCEPT
-//   n == NMAX (404) without crossing -> truncate: ABORT if score > 0, else ACCEPT
-//                                       (a tie at score 0 accepts, as in qkd_model.py)
-//   NMAX = 0 means "no cap".
-//
-// Timing:
-//   * All state advances only when ce = 1 (INTERFACES.md section 0).
-//   * clr (= blk_start) clears the engine. If in_valid arrives in the same
-//     cycle as clr, that bit is the first bit of the new block.
-//   * Bits arriving after done are ignored (not counted in n).
-//   * done/abort/trunc/n/score are registers: they show the result of the
-//     deciding bit in the cycle after that bit.
-//
-// Score width: SW = 18 bits internally. With 16-bit increments and
-// thresholds the score can never leave +/-(2^16), so 18 bits never overflow.
-// live_score is the score saturated to s16 for the register map and LEDs.
 `timescale 1ns / 1ps
 `default_nettype none
 
@@ -27,31 +5,29 @@ module sprt_engine #(
     parameter SW = 18
 ) (
     input  wire               clk,
-    input  wire               rst,       // synchronous, active-high
+    input  wire               rst,
     input  wire               ce,
-    input  wire               clr,       // blk_start: clear for a new block
-    input  wire               in_valid,  // t_valid
-    input  wire               err,       // t_err
+    input  wire               clr,
+    input  wire               in_valid,
+    input  wire               err,
     input  wire signed [15:0] inc_err,
     input  wire signed [15:0] inc_ok,
     input  wire signed [15:0] thr_a,
     input  wire signed [15:0] thr_b,
     input  wire        [15:0] nmax,
     output reg                done,
-    output reg                abort,     // valid when done
-    output reg                trunc,     // valid when done
-    output reg         [15:0] n,         // bits consumed this block
+    output reg                abort,
+    output reg                trunc,
+    output reg         [15:0] n,
     output reg  signed [SW-1:0] score,
     output wire signed [15:0] live_score
 );
 
-    // Sign-extended copies of the 16-bit parameters
     wire signed [SW-1:0] inc_err_x = {{(SW-16){inc_err[15]}}, inc_err};
     wire signed [SW-1:0] inc_ok_x  = {{(SW-16){inc_ok[15]}},  inc_ok};
     wire signed [SW-1:0] thr_a_x   = {{(SW-16){thr_a[15]}},   thr_a};
     wire signed [SW-1:0] thr_b_x   = {{(SW-16){thr_b[15]}},   thr_b};
 
-    // State as seen this cycle (clr wins, so a bit with clr starts the new block)
     wire signed [SW-1:0] s0 = clr ? {SW{1'b0}} : score;
     wire        [15:0]   n0 = clr ? 16'd0      : n;
     wire                 d0 = clr ? 1'b0       : done;
@@ -94,7 +70,6 @@ module sprt_engine #(
         end
     end
 
-    // Saturate to s16 for LIVE_SCORE and the LED meter
     localparam signed [SW-1:0] S16_MAX = 32767;
     localparam signed [SW-1:0] S16_MIN = -32768;
     assign live_score = (score > S16_MAX) ? 16'sh7FFF :

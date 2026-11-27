@@ -1,13 +1,3 @@
-// b_disclose.v - Bob answers a disclosure request (Part 1).
-// docs/pe_top_timing.md section 3.3.
-//
-// Edge R+1 (request seen, message 3): Bob reads his key word and its
-//   disclosed-mark word at the requested position (synchronous BRAM read).
-// Edge R+2: his bit is on the public channel (message 4, combinational from the
-//   memory output, so Alice registers the comparison on this edge) and the
-//   position is marked as disclosed (read-modify-write of the mark word), so
-//   key_out will never release it.
-// (Shifted by PC_DELAY edges when the public channel has register stages.)
 `timescale 1ns / 1ps
 `default_nettype none
 
@@ -16,15 +6,15 @@ module b_disclose (
     input  wire        rst,
     input  wire        ce,
     input  wire        start,
-    input  wire        test_buf,     // buffer holding the block under test
-    input  wire        m3_valid,     // message 3
+    input  wire        test_buf,
+    input  wire        m3_valid,
     input  wire [11:0] m3_idx,
-    output wire [7:0]  mem_addr,     // to Bob's key_bram_pp port B
+    output wire [7:0]  mem_addr,
     input  wire [31:0] mem_data,
     input  wire [31:0] disc_data,
     output wire        disc_we,
     output wire [31:0] disc_wdata,
-    output wire        m4_valid,     // message 4
+    output wire        m4_valid,
     output wire        m4_bit
 );
     reg       pend;

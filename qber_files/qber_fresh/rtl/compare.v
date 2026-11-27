@@ -1,11 +1,3 @@
-// compare.v - Alice compares Bob's disclosed bit with her own (Part 1).
-// docs/pe_top_timing.md section 3.3; INTERFACES.md section 3 (t_valid, t_err).
-//
-// Edge R+1: Alice reads her own word at the requested position (her memory's
-//   address is the request she registered on edge R) and holds the bit select.
-// When Bob's bit arrives (message 4; edge R+2 with PC_DELAY = 0) she registers
-//   t_valid = 1 and t_err = a XOR b for exactly one ce edge.
-// fire = the ce edge on which that happens (pe_top's stop-and-wait FSM uses it).
 `timescale 1ns / 1ps
 `default_nettype none
 
@@ -14,10 +6,10 @@ module compare (
     input  wire        rst,
     input  wire        ce,
     input  wire        start,
-    input  wire        req_valid,    // Alice's request (message 3) registered on edge R
-    input  wire [4:0]  req_sel,      // bit position within the word
-    input  wire [31:0] a_word,       // Alice's key word at the requested position
-    input  wire        m4_valid,     // message 4
+    input  wire        req_valid,
+    input  wire [4:0]  req_sel,
+    input  wire [31:0] a_word,
+    input  wire        m4_valid,
     input  wire        m4_bit,
     output reg         t_valid,
     output reg         t_err,

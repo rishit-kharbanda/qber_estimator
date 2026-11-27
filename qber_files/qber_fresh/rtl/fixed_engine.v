@@ -1,14 +1,3 @@
-// fixed_engine.v - fixed-sample QBER test, the baseline (Part 2)
-//
-// Plain:     consume FIX_N bits (202); ABORT if errors > FIX_C (12).
-// Curtailed: (curtail = 1) also stop as soon as the outcome is certain:
-//              errors > FIX_C                           -> ABORT now
-//              errors + (FIX_N - n) <= FIX_C            -> ACCEPT now
-// Decision order per bit is the same as qkd_model.py:
-//   n == FIX_N first, then curtail-abort, then curtail-accept.
-//
-// Timing and clr behaviour are identical to sprt_engine.v.
-// FIX_N must be >= 1 (the ARM validates it).
 `timescale 1ns / 1ps
 `default_nettype none
 
@@ -16,16 +5,16 @@ module fixed_engine (
     input  wire        clk,
     input  wire        rst,
     input  wire        ce,
-    input  wire        clr,       // blk_start
-    input  wire        in_valid,  // t_valid
-    input  wire        err,       // t_err
-    input  wire        curtail,   // CTRL.curtail_en
+    input  wire        clr,
+    input  wire        in_valid,
+    input  wire        err,
+    input  wire        curtail,
     input  wire [15:0] fix_n,
     input  wire [15:0] fix_c,
     output reg         done,
-    output reg         abort,     // valid when done
-    output reg  [15:0] n,         // bits consumed this block
-    output reg  [15:0] e          // errors seen this block
+    output reg         abort,
+    output reg  [15:0] n,
+    output reg  [15:0] e
 );
 
     wire [15:0] n0 = clr ? 16'd0 : n;
@@ -36,7 +25,6 @@ module fixed_engine (
     wire [15:0] e1   = e0 + {15'd0, err};
     wire        take = in_valid & ~d0;
 
-    // 17-bit sum so it cannot wrap
     wire [16:0] best_case_errs = {1'b0, e1} + {1'b0, fix_n} - {1'b0, n1};
 
     wire at_n      = (n1 == fix_n);

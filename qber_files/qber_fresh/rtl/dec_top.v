@@ -1,25 +1,14 @@
-// dec_top.v - decision core (Part 2): SPRT + fixed engine + session control + stats
-//
-// Interfaces (INTERFACES.md):
-//   section 3  inputs from pe_top   (t_valid, t_err, blk_start, blk_info, sift oracle)
-//   section 4  outputs to pe_top    (blk_done, sprt_abort, fix_abort, n_sprt, n_fix)
-//   section 4b outputs to led_meter (live_score, blk_done, sprt_abort)
-//   section 5  counters and status for axi_regs
-// Both engines see exactly the same disclosed bits and clear on blk_start.
-// blk_done is a one-ce-cycle pulse, one ce-cycle after the bit that completes
-// the second decision. Bits that arrive after an engine decided are ignored,
-// so n_sprt / n_fix are the authoritative per-method disclosure counts.
 `timescale 1ns / 1ps
 `default_nettype none
 
 module dec_top (
     input  wire               clk,
-    input  wire               rst,          // rst | CTRL.soft_rst
+    input  wire               rst,
     input  wire               ce,
-    // control (axi_regs)
-    input  wire               start,        // CTRL.start pulse
-    input  wire               stop,         // proposed CTRL.stop pulse
-    input  wire               curtail_en,   // CTRL.curtail_en
+
+    input  wire               start,
+    input  wire               stop,
+    input  wire               curtail_en,
     input  wire        [31:0] num_blocks,
     input  wire signed [15:0] sprt_inc_err,
     input  wire signed [15:0] sprt_inc_ok,
@@ -28,7 +17,7 @@ module dec_top (
     input  wire        [15:0] sprt_nmax,
     input  wire        [15:0] fix_n,
     input  wire        [15:0] fix_c,
-    // from pe_top (section 3)
+
     input  wire               t_valid,
     input  wire               t_err,
     input  wire               blk_start,
@@ -37,25 +26,25 @@ module dec_top (
     input  wire               blk_info_valid,
     input  wire               sift_valid,
     input  wire               sift_err,
-    // to pe_top (section 4)
+
     output wire               blk_done,
     output wire               sprt_abort,
     output wire               fix_abort,
     output wire        [15:0] n_sprt,
     output wire        [15:0] n_fix,
-    // to led_meter (section 4b) and debug
+
     output wire signed [15:0] live_score,
     output wire               sprt_done,
     output wire               sprt_trunc,
     output wire               fix_done,
-    // run state (STATUS) and proposed run signal to Part 1
+
     output wire               busy,
     output wire               run_done,
     output wire               last_sprt_abort,
     output wire               last_fix_abort,
     output wire               last_trunc,
     output wire               seq_err,
-    // counters (section 5)
+
     output wire        [63:0] cnt_sifted,
     output wire        [63:0] cnt_sifted_errs,
     output wire        [63:0] cnt_blocks_done,
@@ -111,8 +100,6 @@ module dec_top (
         .key_sprt(cnt_key_sprt), .key_fix(cnt_key_fix),
         .last_blk_sifted(last_blk_sifted), .last_blk_true_err(last_blk_true_err));
 
-    // ILA probes: Vivado keeps these nets through synthesis; add them with
-    // "Set Up Debug" after synthesis, or with create_debug_core in Tcl.
     (* mark_debug = "true" *) wire        dbg_ce        = ce;
     (* mark_debug = "true" *) wire        dbg_t_valid   = t_valid;
     (* mark_debug = "true" *) wire        dbg_t_err     = t_err;

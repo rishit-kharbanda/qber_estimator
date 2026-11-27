@@ -1,4 +1,3 @@
-/* sweeps.c - see sweeps.h. Part 4. */
 #include <stdio.h>
 #include <string.h>
 #include "platform.h"
@@ -24,15 +23,14 @@ void run_req_default(run_req_t *q, const char *mode, const char *preset, uint32_
     q->block_size = 4096;
     q->max_s = 60.0;
     q->ctrl_mode = CTRL_MODE_RUN;
-    q->slow_div = 6250000u;              /* slow mode: one disclosed bit (4 ce) every 0.25 s */
-    /* different, reproducible seeds for every point */
+    q->slow_div = 6250000u;
+
     static const uint64_t base[5] = { 0x1234ABCD5678EF01ull, 0x0BADF00DCAFEBABEull, 0xDEADBEEF01234567ull,
                                       0x13579BDF2468ACE0ull, 0x0F1E2D3C4B5A6978ull };
     for (int i = 0; i < 5; i++)
         q->seed[i] = base[i] ^ (0x9E3779B97F4A7C15ull * (uint64_t)(idx + 1u));
 }
 
-/* read whatever is in the FIFO; feed the estimator if asked */
 static uint64_t pump(int estimate)
 {
     uint32_t n = qfifo_read(rx, sizeof(rx) / sizeof(rx[0]));
@@ -59,7 +57,6 @@ int run_once(const run_req_t *q, log_pl_t *pl_out, log_arm_t *arm_out)
         swe_init(&est, &cfg);
     }
 
-    /* configure (soft reset clears the core, its counters and the packer) */
     qhw_set_levels(0);
     qhw_soft_reset();
     qfifo_reset();
@@ -74,7 +71,6 @@ int run_once(const run_req_t *q, log_pl_t *pl_out, log_arm_t *arm_out)
     qhw_write_seeds(q->seed);
     uint32_t levels = (q->ctrl_mode & CTRL_MODE_MASK) | (q->curtail ? CTRL_CURTAIL_EN : 0) | (q->test_all ? CTRL_TEST_ALL : 0);
 
-    /* run */
     uint64_t words = 0, t0 = now_ticks();
     uint64_t t_end = t0 + (uint64_t)(q->max_s * (double)TICKS_PER_SEC);
     qhw_set_levels(levels | (q->stream ? CTRL_STREAM_EN : 0));
@@ -86,16 +82,13 @@ int run_once(const run_req_t *q, log_pl_t *pl_out, log_arm_t *arm_out)
     }
     qhw_wait_idle(100);
 
-    /* drain: let the pipeline, the packer's last packet and the last key release
-     * finish (about 24 + BLOCK_SIZE/32 ce edges; at most ~0.2 ms at RATE_DIV 64),
-     * then read everything the PL sent */
-    uint64_t t_settle = now_ticks() + TICKS_PER_SEC / 500u;           /* 2 ms */
+    uint64_t t_settle = now_ticks() + TICKS_PER_SEC / 500u;
     while (now_ticks() < t_settle)
         if (q->stream) words += pump(estimate);
-    qhw_set_levels(levels);                                          /* stream_en off */
+    qhw_set_levels(levels);
     if (q->stream) {
         uint64_t sent = qhw_rd64(QR_CNT(QC_STREAM_WORDS_SENT));
-        uint64_t t_drain = now_ticks() + TICKS_PER_SEC / 5u;          /* at most 200 ms */
+        uint64_t t_drain = now_ticks() + TICKS_PER_SEC / 5u;
         while (words < sent && now_ticks() < t_drain)
             words += pump(estimate);
     }
@@ -110,7 +103,7 @@ int run_once(const run_req_t *q, log_pl_t *pl_out, log_arm_t *arm_out)
             int compare = pl.v[QC_STREAM_WORDS_DROPPED] == 0 && words == pl.v[QC_STREAM_WORDS_SENT];
             log_arm_from_estimator(&arm, &est.c, &pl, compare);
         } else {
-            arm.photons = 8u * words;                  /* read-only pass */
+            arm.photons = 8u * words;
         }
     }
 
@@ -120,8 +113,6 @@ int run_once(const run_req_t *q, log_pl_t *pl_out, log_arm_t *arm_out)
     if (arm_out) *arm_out = arm;
     return 0;
 }
-
-/* ------------------------------------------------------------------ experiments */
 
 void sweep_graph1(uint32_t blocks_per_point)
 {
@@ -134,9 +125,9 @@ void sweep_graph1(uint32_t blocks_per_point)
     for (unsigned i = 0; i < sizeof qber_pct / sizeof qber_pct[0]; i++) {
         run_req_t q;
         run_req_default(&q, LOG_MODE_G1, "bb84", idx++);
-        q.p_noise    = params_q16(qber_pct[i] / 100.0);   /* QBER = p_noise without Eve */
+        q.p_noise    = params_q16(qber_pct[i] / 100.0);
         q.num_blocks = blocks_per_point;
-        q.curtail    = 0;                                 /* SPRT vs plain fixed test */
+        q.curtail    = 0;
         run_once(&q, NULL, NULL);
     }
 }
@@ -172,8 +163,7 @@ void sweep_rate(double seconds_per_point, int readonly_pass)
             q.rate_div     = rates[i];
             q.stream       = 1;
             q.arm_estimate = !pass;
-            /* a fixed number of blocks lasting about seconds_per_point, so the PL and the
-             * ARM stop at the same block and their decisions can be compared exactly */
+
             double photons = PL_CLOCK_HZ / (double)rates[i] * seconds_per_point;
             uint32_t nb = (uint32_t)(photons / (2.0 * (double)q.block_size));
             q.num_blocks = nb < 20u ? 20u : nb;
@@ -191,7 +181,7 @@ void run_long(double seconds)
     run_req_t q;
     run_req_default(&q, LOG_MODE_LONG, "bb84", 400);
     q.p_noise    = params_q16(0.03);
-    q.num_blocks = 0;                   /* until stopped */
+    q.num_blocks = 0;
     q.max_s      = seconds;
     log_pl_t pl;
     if (run_once(&q, &pl, NULL) == 0)

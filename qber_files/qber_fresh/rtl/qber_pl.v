@@ -1,25 +1,5 @@
-// qber_pl.v - everything in the PL that sits behind one AXI4-Lite slave and
-// one AXI-Stream master (Part 4). This is the single RTL module the block
-// design instantiates (module reference "qber_pl").
-//
-//   axi_regs  <->  core  ->  photon_packer  ->  m_axis (to axi_fifo_mm_s)
-//
-// Build options (Verilog defines, set by vivado/build.tcl):
-//   USE_QBER_CORE  : use Part 2's qber_core (with Part 1 inside) and Part 3's
-//                    led_meter. Without it, the bring-up stub
-//                    (rtl/bringup/core_stub.v) drives a counting photon stream.
-//   QBER_CORE_PE_CNT : qber_core also has Part 1's cnt_disclosed,
-//                    cnt_key_out and st_pe_err outputs (part1 proposal s.1);
-//                    until then DISCLOSED/KEY_OUT/pe_err read 0.
-// The qber_core ports follow part2/rtl/qber_core.v (proposed section 5b).
-// led_meter: Part 3's module (clk, rst, live_score, thr_a, thr_b, blk_done,
-// sprt_abort, led), instantiated here; ui_pmods.tcl is called without it.
-//
-// Timing convention (Part 1): the photon tap changes only on ce edges and is
-// taken on edges where ce & ph_valid = 1. The packer follows it.
 `timescale 1ns / 1ps
 
-// Always build the real core (no Vivado project defines needed).
 `ifndef USE_QBER_CORE
 `define USE_QBER_CORE
 `endif
@@ -36,7 +16,7 @@ module qber_pl (
     (* X_INTERFACE_INFO = "xilinx.com:signal:reset:1.0 aresetn RST" *)
     (* X_INTERFACE_PARAMETER = "POLARITY ACTIVE_LOW" *)
     input  wire        aresetn,
-    // AXI4-Lite slave (register map, INTERFACES.md section 5)
+
     input  wire [11:0] s_axi_awaddr,
     input  wire [2:0]  s_axi_awprot,
     input  wire        s_axi_awvalid,
@@ -56,17 +36,16 @@ module qber_pl (
     output wire [1:0]  s_axi_rresp,
     output wire        s_axi_rvalid,
     input  wire        s_axi_rready,
-    // AXI-Stream master (photon words, INTERFACES.md section 2)
+
     output wire [31:0] m_axis_tdata,
     output wire        m_axis_tvalid,
     input  wire        m_axis_tready,
     output wire        m_axis_tlast,
-    // board
+
     output wire [7:0]  led,
-    output wire [7:0]  dbg              // Pmod JD (section 4c)
+    output wire [7:0]  dbg
 );
 
-    // ---------------- configuration from axi_regs ----------------
     wire        rst;
     wire        start, stop, step;
     wire [1:0]  mode;
@@ -77,7 +56,6 @@ module qber_pl (
     wire [15:0] inc_err, inc_ok, thr_a, thr_b, nmax, fix_n, fix_c, stream_pkt;
     wire [319:0] seeds;
 
-    // ---------------- core outputs ----------------
     wire        busy, done, last_sprt_abort, last_fix_abort, last_trunc, pl_drop_flag, pe_err;
     wire        ce, ph_valid, a_bit, a_basis, b_bit, b_basis;
     wire [15:0] live_score;
@@ -86,16 +64,13 @@ module qber_pl (
                 c_blocks_done, c_sum_n_sprt, c_sum_n_fix, c_abort_sprt, c_abort_fix,
                 c_trunc_sprt, c_key_sprt, c_key_fix, c_photons_proc, c_disclosed, c_key_out;
 
-    // ---------------- packer ----------------
     wire [63:0] c_stream_sent, c_stream_dropped;
     wire        stream_drop_flag;
 
-    // VERSION (0x1F4): {full_core, 7'b0, major, minor, patch}. Bit 31 tells the
-    // ARM which bitstream is loaded (1 = real qber_core, 0 = bring-up stub).
 `ifdef USE_QBER_CORE
-    localparam [31:0] VERSION = 32'h8000_0300;   // v0.3.0, full core
+    localparam [31:0] VERSION = 32'h8000_0300;
 `else
-    localparam [31:0] VERSION = 32'h0000_0300;   // v0.3.0, bring-up stub
+    localparam [31:0] VERSION = 32'h0000_0300;
 `endif
 
     axi_regs #(.ADDR_W(12), .N_CNT(20), .VERSION_VALUE(VERSION)) u_regs (
@@ -114,7 +89,7 @@ module qber_pl (
         .cfg_seeds(seeds),
         .status_in({pe_err, stream_drop_flag, pl_drop_flag, last_trunc, last_fix_abort,
                     last_sprt_abort, done, busy}),
-        // counter k at 0x100 + 8k; k = 16, 17 (0x180-0x18C) are the live/latency words
+
         .cnt_in({c_key_out, c_disclosed, 64'd0, 64'd0,
                  c_photons_proc, c_stream_dropped, c_stream_sent, c_key_fix, c_key_sprt,
                  c_trunc_sprt, c_abort_fix, c_abort_sprt, c_sum_n_fix, c_sum_n_sprt,
@@ -123,10 +98,9 @@ module qber_pl (
     );
 
 `ifdef USE_QBER_CORE
-    // ================= full design: Parts 1-3 =================
+
     wire led_blk_done, led_sprt_abort, led_sprt_done;
 
-    // axi_regs.rst_core already includes CTRL.soft_rst, so ctrl_soft_rst is 0.
     qber_core u_core (
         .clk(aclk), .rst(rst),
         .ctrl_start(start), .ctrl_soft_rst(1'b0), .ctrl_mode(mode), .ctrl_step(step),
@@ -159,8 +133,6 @@ module qber_pl (
     assign pe_err      = 1'b0;
 `endif
 
-    // Part 3's LED meter (rtl/led_meter.v, Avinash): blk_done is a one-clock
-    // pulse (session_ctrl gates it with ce), so no ce input is needed.
     led_meter u_led (
         .clk(aclk), .rst(rst),
         .live_score(live_score), .thr_a(thr_a), .thr_b(thr_b),
@@ -168,7 +140,7 @@ module qber_pl (
         .led(led)
     );
 `else
-    // ================= bring-up: counting photon stream =================
+
     core_stub u_core (
         .clk(aclk), .rst(rst), .start(start), .stop(stop), .step(step), .mode(mode),
         .rate_div(rate_div), .slow_div(slow_div),
@@ -184,21 +156,15 @@ module qber_pl (
             c_disclosed, c_key_out} = {13{64'd0}};
     assign c_photons_proc = c_photons_in;
 
-    // heartbeat on LD7, busy on LD0, stream drop on LD1
     reg [26:0] hb;
     always @(posedge aclk) hb <= rst ? 27'd0 : hb + 27'd1;
     assign led = {hb[26], 5'd0, stream_drop_flag, busy};
     assign dbg = {6'd0, ph_valid, ce};
 `endif
 
-    // ---------------- packer: end of stream ----------------
-    // The stream ends when stream_en falls, or 4 ce edges after busy falls
-    // (the photons already in link_top's 3-stage pipe still come out and are
-    // counted in PHOTONS_IN). In step mode the drain needs step pulses, so the
-    // ARM ends a run as: stop -> wait busy = 0 -> clear stream_en.
     reg       busy_q, en_q, draining;
     reg [2:0] drain_cnt;
-    wire      drain_end = draining & ce & (drain_cnt == 3'd3);    // 4th ce edge after busy fell
+    wire      drain_end = draining & ce & (drain_cnt == 3'd3);
     always @(posedge aclk) begin
         if (rst) begin
             busy_q <= 1'b0; en_q <= 1'b0; draining <= 1'b0; drain_cnt <= 3'd0;

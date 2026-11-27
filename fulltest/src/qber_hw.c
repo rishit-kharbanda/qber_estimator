@@ -1,18 +1,16 @@
-/* qber_hw.c - driver for the QBER estimator registers and the photon FIFO
- * (Part 4). See qber_hw.h. */
 #include <stdio.h>
 #include "qber_hw.h"
 #include "platform.h"
 
-static uint32_t ctrl_levels;      /* shadow of CTRL level bits */
-static uint32_t pkt_left;         /* words left in the FIFO packet being read */
+static uint32_t ctrl_levels;
+static uint32_t pkt_left;
 
 uint32_t qhw_rd(uint32_t off)           { return Xil_In32(QBER_REGS_BASE + off); }
 void     qhw_wr(uint32_t off, uint32_t v) { Xil_Out32(QBER_REGS_BASE + off, v); }
 
 uint64_t qhw_rd64(uint32_t off)
 {
-    uint32_t lo = qhw_rd(off);            /* latches HI */
+    uint32_t lo = qhw_rd(off);
     uint32_t hi = qhw_rd(off + 4u);
     return ((uint64_t)hi << 32) | lo;
 }
@@ -30,12 +28,11 @@ int qhw_reg_selftest(int verbose)
     static const uint32_t pats[] = { 0xFFFFFFFFu, 0x00000000u, 0xA5A55A5Au, 0x5A5AA5A5u };
     int errors = 0;
 
-    /* scratch: walking ones and fixed patterns */
     for (int b = 0; b < 32; b++) {
         qhw_wr(QR_SCRATCH, 1u << b);
         if (qhw_rd(QR_SCRATCH) != (1u << b)) errors++;
     }
-    /* every RW configuration word except CTRL; originals restored */
+
     for (uint32_t off = QR_P_NOISE; off <= QR_CFG_LAST; off += 4u) {
         uint32_t orig = qhw_rd(off);
         for (unsigned p = 0; p < sizeof(pats) / sizeof(pats[0]); p++) {
@@ -49,7 +46,7 @@ int qhw_reg_selftest(int verbose)
         }
         qhw_wr(off, orig);
     }
-    /* STATUS must ignore writes */
+
     uint32_t st = qhw_rd(QR_STATUS);
     qhw_wr(QR_STATUS, 0xFFFFFFFFu);
     if (qhw_rd(QR_STATUS) != st) errors++;
@@ -83,7 +80,7 @@ int qhw_wait_idle(uint32_t timeout_ms)
 
 void qhw_write_consts(const est_consts_t *k)
 {
-    /* signed values are written sign-extended to 32 bits */
+
     qhw_wr(QR_SPRT_INC_ERR, (uint32_t)(int32_t)k->inc_err);
     qhw_wr(QR_SPRT_INC_OK,  (uint32_t)(int32_t)k->inc_ok);
     qhw_wr(QR_SPRT_THR_A,   (uint32_t)(int32_t)k->thr_a);
@@ -96,7 +93,7 @@ void qhw_write_consts(const est_consts_t *k)
 void qhw_write_seeds(const uint64_t seeds[5])
 {
     for (unsigned n = 0; n < 5; n++) {
-        uint64_t s = seeds[n];   /* 0 is allowed: rng64.v replaces it (part1 proposal s.3) */
+        uint64_t s = seeds[n];
         qhw_wr(QR_SEED_LO(n), (uint32_t)s);
         qhw_wr(QR_SEED_HI(n), (uint32_t)(s >> 32));
     }
@@ -111,7 +108,7 @@ void qhw_read_counters(qhw_counters_t *c)
 void qfifo_reset(void)
 {
     Xil_Out32(QBER_FIFO_BASE + FIFO_RDFR, FIFO_RESET_KEY);
-    Xil_Out32(QBER_FIFO_BASE + FIFO_ISR, 0xFFFFFFFFu);   /* clear interrupt flags */
+    Xil_Out32(QBER_FIFO_BASE + FIFO_ISR, 0xFFFFFFFFu);
     pkt_left = 0;
 }
 
@@ -121,7 +118,7 @@ uint32_t qfifo_read(uint32_t *buf, uint32_t max)
     while (n < max) {
         if (pkt_left == 0) {
             if (qfifo_occupancy() == 0) break;
-            pkt_left = qfifo_packet_words();          /* must precede the data reads */
+            pkt_left = qfifo_packet_words();
             if (pkt_left == 0) break;
         }
         uint32_t take = pkt_left < (max - n) ? pkt_left : (max - n);

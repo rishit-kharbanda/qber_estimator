@@ -1,11 +1,3 @@
-// alice_src.v - Alice's source: one random bit and basis per photon (RNG1).
-// Part 1 (Rishit). INTERFACES.md sections 0 and 1.
-//
-//   On every ce edge: out_valid <= run. If run = 1, RNG1 steps and the photon is
-//   out_bit = r[0], out_basis = r[1] (basis 0 = +, 1 = x).
-//   Outputs are registers that change only on ce edges; a consumer samples
-//   them with ce (each photon is seen exactly once).
-//   start: loads the seed and empties the stage (not ce-gated).
 `timescale 1ns / 1ps
 `default_nettype none
 
@@ -22,9 +14,8 @@ module alice_src #(
     output reg         out_bit,
     output reg         out_basis
 );
-    /* verilator lint_off UNUSEDSIGNAL */
-    wire [63:0] r;                 // only r[1:0] are used
-    /* verilator lint_on UNUSEDSIGNAL */
+
+    wire [63:0] r;
 
     rng64 #(.ZERO_SUB(ZERO_SUB)) u_rng (
         .clk(clk), .rst(rst), .load(start), .seed(seed),

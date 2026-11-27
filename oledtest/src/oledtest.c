@@ -1,17 +1,3 @@
-/* oledtest.c - find out why a 4-pin I2C OLED on JB stays dark (Parts 3 and 4).
- *
- * 1. Scans JB1 (SCL) / JB2 (SDA) at 100 kHz and 400 kHz for I2C devices.
- * 2. Then repeats three display set-ups, 8 s each, and prints which one is
- *    running; watch the screen and note which one shows text:
- *      A  SSD1306 128x64  (0.96-inch, the usual module; what the demo uses)
- *      B  SSD1306 128x32  (0.91-inch, long thin module)
- *      C  SH1106  128x64  (1.3-inch module)
- *    Each set-up lights the whole screen for 3 s, then shows its letter and text.
- * 3. Counts I2C transfers the display did not acknowledge (should stay 0).
- *
- * Vitis sources: oledtest/oledtest.c, ui/font8x8.h, ui/ui_hw.h (nothing else).
- * Output: UART 115200 baud (PuTTY or the live-plot page).
- */
 #include <stdio.h>
 #include <string.h>
 #include "xiicps.h"
@@ -56,7 +42,7 @@ static void scan(unsigned hz)
     printf(n ? "\r\n" : " nothing answered\r\n");
 }
 
-static void cmds(const unsigned char *c, int n)          /* control byte 0x00 + commands */
+static void cmds(const unsigned char *c, int n)
 {
     unsigned char b[40];
     b[0] = 0x00;
@@ -64,7 +50,6 @@ static void cmds(const unsigned char *c, int n)          /* control byte 0x00 + 
     send(addr, b, n + 1);
 }
 
-/* write one page (8 pixel rows) of 128 columns; sh1106 = column offset 2 */
 static void page(int p, const unsigned char *px, int sh1106)
 {
     unsigned char pos[3] = { (unsigned char)(0xB0 + p), (unsigned char)(sh1106 ? 0x02 : 0x00), 0x10 };
@@ -89,7 +74,7 @@ static void text_row(unsigned char *px, const char *t)
 
 static void setup(char v)
 {
-    /* page addressing (0x20 0x02) for all three, so the same drawing code works */
+
     static const unsigned char a64[] = {
         0xAE, 0xD5, 0x80, 0xA8, 0x3F, 0xD3, 0x00, 0x40, 0x8D, 0x14, 0x20, 0x02,
         0xA1, 0xC8, 0xDA, 0x12, 0x81, 0xCF, 0xD9, 0xF1, 0xDB, 0x40, 0xA4, 0xA6, 0xAF };
@@ -122,7 +107,7 @@ int main(void)
             int pages = (v == 'B') ? 4 : 8, sh = (v == 'C');
             tx_ok = tx_err = 0;
             setup(v);
-            memset(px, 0xFF, sizeof px);                  /* whole screen lit */
+            memset(px, 0xFF, sizeof px);
             for (int p = 0; p < pages; p++) page(p, px, sh);
             printf("# round %u, set-up %s: screen lit", round, name[k]);
             usleep(3000000);

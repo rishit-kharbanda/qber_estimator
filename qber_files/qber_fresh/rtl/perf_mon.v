@@ -1,23 +1,9 @@
-// perf_mon.v - processing-rate, drop and latency monitor (Part 2)
-//
-// 64-bit counters, cleared on rst or clr (= CTRL.start):
-//   CYCLES        clock cycles while busy (every clk, not just ce)
-//   PHOTONS_IN    photons generated (ph_valid)
-//   PHOTONS_PROC  photons accepted by the last per-photon stage (ph_proc)   [proposed 0x178]
-//   PL_DROPPED    inputs any PL stage could not accept; drop[] carries one
-//                 pulse per stage, so several drops in one cycle all count
-// Flags and debug:
-//   pl_drop_flag  sticky until clr (STATUS[5])
-//   rate_toggle   toggles every 2^RT_LOG2 processed photons (Pmod JD, DSO)
-// Block test latency (clock cycles from blk_start to blk_done):          [proposed 0x188/0x18C]
-//   lat_last, lat_max (32-bit)
-// Proof of rate: PHOTONS_PROC == PHOTONS_IN and PL_DROPPED == 0 after a long run.
 `timescale 1ns / 1ps
 `default_nettype none
 
 module perf_mon #(
-    parameter ND      = 4,    // number of drop sources
-    parameter RT_LOG2 = 20    // rate_toggle period (2^20 photons)
+    parameter ND      = 4,
+    parameter RT_LOG2 = 20
 ) (
     input  wire          clk,
     input  wire          rst,
@@ -39,7 +25,6 @@ module perf_mon #(
     output reg  [31:0]   lat_max
 );
 
-    // ce-qualified drop pulses and their population count
     wire [ND-1:0] drop_q   = ce ? drop : {ND{1'b0}};
     wire          any_drop = |drop_q;
     reg  [7:0]    ndrop;
@@ -81,8 +66,7 @@ module perf_mon #(
                 pl_dropped   <= pl_dropped + {56'd0, ndrop};
                 pl_drop_flag <= 1'b1;
             end
-            // Latency: count clk cycles from blk_start to blk_done.
-            // blk_done and blk_start in the same cycle close one block and open the next.
+
             if (blk_done && timing) begin
                 lat_last <= lat_cnt + 32'd1;
                 if (lat_cnt + 32'd1 > lat_max) lat_max <= lat_cnt + 32'd1;

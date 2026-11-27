@@ -1,4 +1,3 @@
-/* params.c - estimator constants from (p0, p1, alpha, beta). Part 4. */
 #include "params.h"
 #include <math.h>
 
@@ -28,10 +27,9 @@ uint32_t params_min_block(uint32_t nmax, uint32_t fix_n)
     for (uint32_t bs = 1; bs <= 4096; bs++)
         if (params_check_block(bs, nmax, fix_n) == 0)
             return bs;
-    return 0;   /* no valid size: D too large */
+    return 0;
 }
 
-/* Binomial pmf for k = 0..n by the ratio recurrence (no factorials). */
 static void binom_pmf(int n, double p, double *pmf)
 {
     double r = p / (1.0 - p);
@@ -47,18 +45,17 @@ int params_fixed_design(double p0, double p1, double alpha, double beta,
     for (int n = 10; n <= n_limit; n++) {
         binom_pmf(n, p0, pmf0);
         binom_pmf(n, p1, pmf1);
-        /* smallest c with upper tail P(X > c | p0) <= alpha (summed from the top,
-         * so tiny alphas keep their precision) */
+
         double tail = 0.0;
         int c = n;
         for (int k = n; k >= 0; k--) {
-            /* tail = P(X > k-1) = P(X >= k) after adding pmf0[k] */
+
             tail += pmf0[k];
             if (tail > alpha) { c = k; break; }
             if (k == 0) c = 0;
         }
-        /* now P(X > c) <= alpha and P(X > c-1) > alpha */
-        double low = 0.0;          /* P(X <= c | p1) */
+
+        double low = 0.0;
         for (int k = 0; k <= c; k++) low += pmf1[k];
         if (low <= beta) {
             *n_out = n;
@@ -84,7 +81,7 @@ int params_compute(const test_spec_t *s, est_consts_t *k)
     double tb = floor(S * log(s->beta / (1.0 - s->alpha)) + 0.5);
     if (!fits_s16(ie) || !fits_s16(io) || !fits_s16(ta) || !fits_s16(tb))
         return -1;
-    /* the score must stay inside s16: |thr| + |inc| < 32768 */
+
     if (fabs(ta) + fabs(ie) > 32767.0 || fabs(tb) + fabs(io) > 32767.0)
         return -1;
 

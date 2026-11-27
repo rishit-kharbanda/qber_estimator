@@ -1,28 +1,3 @@
-/* fulltest.c - first test of the FULL design on the ZedBoard (Part 4).
- * Needs the full bitstream (vivado/build.tcl -full): qber_core (Parts 1 + 2)
- * inside qber_pl. Prints to the USB-UART at 115200 baud (host/capture.py).
- *
- * A. Golden cases (Part 1's model v2, compiled in from golden_cases.h).
- *    For each case the PL runs the case at RATE_DIV = 8 (12.5 M photons/s, which
- *    the ARM can follow without drops; every decision and counter is counted
- *    in ce edges, so it does not depend on the rate), streams every photon to
- *    the ARM through the AXI-Stream FIFO, and the ARM runs the C estimator on
- *    the stream while the run is in progress. Checks:
- *      PL counters  == model   (blocks, SPRT/fixed bits, aborts, truncations,
- *                               key bits, DISCLOSED, KEY_OUT, SIFTED,
- *                               SIFTED_ERRS, PHOTONS_IN)  -> the hardware is bit-exact
- *      PHOTONS_PROC == PHOTONS_IN, PL_DROPPED == 0, no pe_err
- *      ARM words    == STREAM_WORDS_SENT, no stream drops
- *      ARM decisions == PL decisions (same counters)
- *
- * B. Rate sweep (first look at Graph 2): default BB84 settings, NUM_BLOCKS = 0,
- *    RATE_DIV = 64 .. 1, 0.5 s each. Reports the PL's processed rate
- *    (PHOTONS_PROC per busy second, PL_DROPPED) and the ARM's (photons
- *    received and estimated per second, stream words dropped).
- *
- * Vitis sources: fulltest/fulltest.c, selftest/golden_cases.h, qber_hw.c,
- * params.c, link_emu.c, sw_estimator.c (+ every .h in sw/); m library; -O2.
- */
 #include <inttypes.h>
 #include <stdio.h>
 #include "platform.h"
@@ -40,8 +15,6 @@ static uint32_t rx[4096];
 static swe_t est;
 static int fails = 0;
 
-/* Drain the FIFO into the estimator until the PL has sent `sent` words or the
- * timeout passes. Returns words read. */
 static uint64_t drain(uint64_t got, double timeout_s)
 {
     uint64_t t_end = now_ticks() + (uint64_t)(timeout_s * (double)TICKS_PER_SEC);
@@ -59,7 +32,6 @@ static void start_run(uint32_t levels)
     qhw_pulse(CTRL_START);
 }
 
-/* ------------------------------------------------------------- A. golden cases */
 static void golden_case(const golden_case_t *g)
 {
     est_consts_t k = { g->inc_err, g->inc_ok, g->thr_a, g->thr_b, g->nmax, g->fix_n, g->fix_c };
@@ -89,8 +61,8 @@ static void golden_case(const golden_case_t *g)
         uint32_t n = qfifo_read(rx, sizeof(rx) / sizeof(rx[0]));
         if (n) { swe_process(&est, rx, n); got += n; }
     }
-    got = drain(got, 0.2);                 /* photons still in the pipeline, last packet */
-    qhw_set_levels(levels);                /* stream_en off */
+    got = drain(got, 0.2);
+    qhw_set_levels(levels);
     got = drain(got, 0.05);
     double secs = ticks_to_s(now_ticks() - t0);
 
@@ -130,7 +102,6 @@ static void golden_case(const golden_case_t *g)
            strm_ok ? "stream_ok" : "STREAM_ERR", arm_ok ? "ARM=PL" : "ARM!=PL");
 }
 
-/* ------------------------------------------------------------- B. rate sweep */
 static void rate_point(uint32_t rate_div)
 {
     est_consts_t k;
@@ -146,7 +117,7 @@ static void rate_point(uint32_t rate_div)
     qhw_wr(QR_F_EVE, 0);
     qhw_wr(QR_RATE_DIV, rate_div);
     qhw_wr(QR_BLOCK_SIZE, 4096);
-    qhw_wr(QR_NUM_BLOCKS, 0);              /* until stop */
+    qhw_wr(QR_NUM_BLOCKS, 0);
     qhw_wr(QR_STREAM_PKT, PKT_WORDS);
     qhw_write_consts(&k);
 

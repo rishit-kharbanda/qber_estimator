@@ -1,8 +1,3 @@
-// bob_det.v - Bob's detector: random basis (RNG4) and the BB84 measurement.
-// Part 1 (Rishit). INTERFACES.md sections 0 and 1.
-//
-//   b_basis = RNG4[0]; same basis as the arriving photon -> its bit,
-//   otherwise a random bit RNG4[1]. RNG4 steps once per photon.
 `timescale 1ns / 1ps
 `default_nettype none
 
@@ -21,9 +16,8 @@ module bob_det #(
     output reg         b_bit,
     output reg         b_basis
 );
-    /* verilator lint_off UNUSEDSIGNAL */
-    wire [63:0] r4;                // only r4[1:0] are used
-    /* verilator lint_on UNUSEDSIGNAL */
+
+    wire [63:0] r4;
 
     rng64 #(.ZERO_SUB(ZERO_SUB)) u_rng (
         .clk(clk), .rst(rst), .load(start), .seed(seed),

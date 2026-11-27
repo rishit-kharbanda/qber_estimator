@@ -1,4 +1,3 @@
-/* sw_estimator.c - parameter estimation in C (see sw_estimator.h). Part 4. */
 #include "sw_estimator.h"
 #include "link_emu.h"
 #include "xs64.h"
@@ -11,7 +10,6 @@
 #error "needs GCC/Clang builtins"
 #endif
 
-/* SEED4 reset value of axi_regs.v ({SEED4_HI, SEED4_LO}) */
 #define SEED4_DEFAULT 0x000000052468ACE0ull
 
 void swe_cfg_default(swe_cfg_t *cfg, const est_consts_t *k)
@@ -35,8 +33,6 @@ int swe_init(swe_t *s, const swe_cfg_t *cfg)
     return 0;
 }
 
-/* Test one full block (pe_top + dec_top). The sampler always makes exactly D
- * steps, so RNG5 and P stay in step with the PL whatever the decisions. */
 static void test_block(swe_t *s)
 {
     const est_consts_t *k = &s->cfg.k;
@@ -60,16 +56,16 @@ static void test_block(swe_t *s)
     int s_done = 0, f_done = 0, s_abort = 0, f_abort = 0, trunc = 0;
 
     for (d = 0; d < D && !(s_done && f_done); d++) {
-        uint32_t err = s->e[idx[d]];             /* compare */
+        uint32_t err = s->e[idx[d]];
         errs += err;
-        if (!s_done) {                           /* sprt_engine.v */
+        if (!s_done) {
             score += err ? k->inc_err : k->inc_ok;
             n_s++;
             if (score >= k->thr_a)      { s_done = 1; s_abort = 1; }
             else if (score <= k->thr_b) { s_done = 1; s_abort = 0; }
             else if (n_s == k->nmax)    { s_done = 1; s_abort = score > 0; trunc = 1; }
         }
-        if (!f_done) {                           /* fixed_engine.v */
+        if (!f_done) {
             n_f++;
             e_f += err;
             if (n_f == k->fix_n)                               { f_done = 1; f_abort = e_f > k->fix_c; }
@@ -77,7 +73,6 @@ static void test_block(swe_t *s)
             else if (s->cfg.curtail && e_f + (k->fix_n - n_f) <= k->fix_c) { f_done = 1; f_abort = 0; }
         }
     }
-    /* d = max(n_s, n_f): both engines see every disclosed bit (stop-and-wait) */
 
     swe_counts_t *c = &s->c;
     swe_block_t b;
@@ -115,7 +110,7 @@ static void test_block(swe_t *s)
 static inline void push_sifted(swe_t *s, uint32_t err)
 {
     if (s->full)
-        return;                                  /* run over: like busy = 0 */
+        return;
     s->e[s->fill] = (uint8_t)err;
     s->blk_errs  += err;
     if (++s->fill == s->cfg.block_size) {
@@ -125,20 +120,18 @@ static inline void push_sifted(swe_t *s, uint32_t err)
     }
 }
 
-/* Word-parallel: d = w ^ (w >> 2) puts a_bit^b_bit at bit 4i and
- * a_basis^b_basis at bit 4i+1 of each nibble. */
 void swe_process(swe_t *s, const uint32_t *words, size_t n)
 {
     uint64_t sifted = 0, errs = 0;
     for (size_t i = 0; i < n; i++) {
         uint32_t w  = words[i];
         uint32_t d  = w ^ (w >> 2);
-        uint32_t sm = ~d & 0x22222222u;          /* bit 4i+1: photon i sifted */
-        uint32_t em = d & (sm >> 1);             /* bit 4i: sifted and wrong   */
+        uint32_t sm = ~d & 0x22222222u;
+        uint32_t em = d & (sm >> 1);
         sifted += POPCOUNT32(sm);
         errs   += POPCOUNT32(em);
         while (sm) {
-            uint32_t sh = CTZ32(sm) - 1u;        /* 4i: oldest photon first */
+            uint32_t sh = CTZ32(sm) - 1u;
             push_sifted(s, (em >> sh) & 1u);
             sm &= sm - 1u;
         }
@@ -148,7 +141,6 @@ void swe_process(swe_t *s, const uint32_t *words, size_t n)
     s->c.sifted_errs += errs;
 }
 
-/* One photon at a time, structured like the RTL (unpack -> sift -> store). */
 void swe_process_simple(swe_t *s, const uint32_t *words, size_t n)
 {
     for (size_t i = 0; i < n; i++) {

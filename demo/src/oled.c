@@ -1,12 +1,3 @@
-/* ============================================================================
- * oled.c - 128x64 I2C OLED driver (SSD1306, optional SH1106)
- *
- * The screen is 8 "pages" x 128 columns; one byte = 8 vertical pixels
- * (bit 0 on top). The whole screen lives in fb[1024]. Every I2C message
- * starts with a control byte: 0x00 = commands follow, 0x40 = pixel data.
- * ========================================================================== */
-/* #define OLED_SH1106 */
-
 #include "oled.h"
 #include "font8x8.h"
 #include "ui_hw.h"
@@ -17,7 +8,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 
-#define OLED_ADDR 0x3C            /* some modules use 0x3D */
+#define OLED_ADDR 0x3C
 #define I2C_HZ    400000
 
 static XIicPs iic;
@@ -46,21 +37,21 @@ int oled_init(void)
     XIicPs_SetSClk(&iic, I2C_HZ);
 
     static const unsigned char init[] = {
-        0xAE,             /* display off                                 */
-        0xD5, 0x80,       /* clock                                       */
-        0xA8, 0x3F,       /* 64 rows                                     */
-        0xD3, 0x00,       /* no offset                                   */
-        0x40,             /* start line 0                                */
-        0x8D, 0x14,       /* charge pump on                              */
-        0x20, 0x00,       /* horizontal addressing                       */
-        0xA1,             /* 0xA0 instead if text is mirrored            */
-        0xC8,             /* 0xC0 instead if text is upside down         */
-        0xDA, 0x12,       /* COM pins, 128x64                            */
-        0x81, 0xCF,       /* contrast                                    */
-        0xD9, 0xF1,       /* pre-charge                                  */
-        0xDB, 0x40,       /* VCOMH                                       */
-        0xA4, 0xA6,       /* show RAM, not inverted                      */
-        0xAF              /* display on                                  */
+        0xAE,
+        0xD5, 0x80,
+        0xA8, 0x3F,
+        0xD3, 0x00,
+        0x40,
+        0x8D, 0x14,
+        0x20, 0x00,
+        0xA1,
+        0xC8,
+        0xDA, 0x12,
+        0x81, 0xCF,
+        0xD9, 0xF1,
+        0xDB, 0x40,
+        0xA4, 0xA6,
+        0xAF
     };
     usleep(100000);
     oled_cmds(init, sizeof(init));
@@ -99,7 +90,7 @@ static void vline(int row, int invert, const char *fmt, va_list ap)
     char buf[OLED_COLS + 1];
     vsnprintf(buf, sizeof(buf), fmt, ap);
     size_t n = strlen(buf);
-    memset(buf + n, ' ', OLED_COLS - n);       /* pad: erase old text */
+    memset(buf + n, ' ', OLED_COLS - n);
     buf[OLED_COLS] = '\0';
     draw_text(row, 0, buf, invert);
 }
@@ -137,5 +128,4 @@ void oled_refresh(void)
 #endif
 }
 
-/* the fixed I2C address (used for the start-up message) */
 unsigned oled_address(void) { return OLED_ADDR; }

@@ -1,4 +1,3 @@
-/* uart_log.c - CSV logging over the USB-UART (see uart_log.h). Part 4. */
 #include <inttypes.h>
 #include <stdio.h>
 #include "uart_log.h"
@@ -21,7 +20,7 @@ void log_comment(const char *text)
 void log_row(const log_run_t *r, const log_pl_t *pl, const log_arm_t *arm)
 {
     const uint64_t *v = pl->v;
-    double run_s = (double)v[QC_CYCLES] / PL_CLOCK_HZ;   /* time the PL was busy */
+    double run_s = (double)v[QC_CYCLES] / PL_CLOCK_HZ;
     printf("%s,%s,%u,%u,%lu,%lu,%.6f,"
            "%" PRIu64 ",%" PRIu64 ",%" PRIu64 ",%" PRIu64 ",%" PRIu64 ",%" PRIu64 ",%" PRIu64 ","
            "%" PRIu64 ",%" PRIu64 ",%" PRIu64 ",%" PRIu64 ",%" PRIu64 ",%" PRIu64 ",%" PRIu64 ","

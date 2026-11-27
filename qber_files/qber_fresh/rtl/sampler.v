@@ -1,21 +1,3 @@
-// sampler.v - random disclosure order without repeats (Part 1, RNG5).
-// docs/pe_top_timing.md section 3.5; part1/INTERFACES_change_proposal.md section 7.
-//
-// Partial Fisher-Yates shuffle on a permutation P of 0..BS-1:
-//   on start:  P[p] = p for p < BS        (ceil(BS/2) clock cycles, 2 writes/cycle)
-//   list k:    for i = 0 .. D-1:
-//                  r24 = RNG5[63:40]  (one RNG5 step)
-//                  j   = i + ((r24 * (BS - i)) >> 24)       (i <= j < BS)
-//                  swap P[i], P[j];  IDX[k mod 2][i] = P[i]
-// P is kept from list to list (never reset between blocks). Exactly D RNG5
-// steps per list, all positions distinct, no retries. List k goes to bank
-// k mod 2; it is built as soon as that bank is free (its previous list has been
-// consumed), 2 clock cycles per step plus 2. The sampler runs on the clock, not
-// on ce: its output order does not depend on timing, only its readiness does,
-// and running faster than ce can only help.
-// test_all: no list is built and RNG5 is not used; pe_top discloses 0..D-1.
-// Ports: P is a true dual-port RAM (4096 x 12), IDX a simple dual-port RAM
-// (2 banks x 1024 x 12, read by pe_top every clock).
 `timescale 1ns / 1ps
 `default_nettype none
 
@@ -24,14 +6,14 @@ module sampler #(
 ) (
     input  wire        clk,
     input  wire        rst,
-    input  wire        start,        // load seed, latch bs/d/test_all, P := identity
+    input  wire        start,
     input  wire [63:0] seed,
-    input  wire [12:0] bs,           // BLOCK_SIZE (1..4096)
-    input  wire [10:0] d,            // max(SPRT_NMAX, FIX_N) (1..1024)
+    input  wire [12:0] bs,
+    input  wire [10:0] d,
     input  wire        test_all,
-    input  wire        consume,      // the list in consume_bank has been used
+    input  wire        consume,
     input  wire        consume_bank,
-    output reg  [1:0]  ready,        // a list is waiting in bank b
+    output reg  [1:0]  ready,
     input  wire        rd_bank,
     input  wire [9:0]  rd_addr,
     output reg  [11:0] rd_idx
@@ -43,32 +25,26 @@ module sampler #(
     reg  [12:0] p_bs;
     reg  [10:0] p_d;
     reg         p_seq;
-    reg  [12:0] ip;                // init pointer
-    reg  [10:0] i;                 // shuffle step
+    reg  [12:0] ip;
+    reg  [10:0] i;
     reg         wbank;
-    reg  [23:0] r24_q;             // RNG5[63:40], one step ahead
-    reg  [11:0] j_q;               // j for the next step
-    reg  [11:0] j_wr;              // j of the step being written
-    reg  [10:0] i1;                // = i + 1, kept as a register (timing, Part 4)
-    reg  [12:0] bsk1;              // = p_bs - (i + 1), kept as a register
+    reg  [23:0] r24_q;
+    reg  [11:0] j_q;
+    reg  [11:0] j_wr;
+    reg  [10:0] i1;
+    reg  [12:0] bsk1;
 
-    // ---------------- RNG5
     wire [63:0] rnd;
     wire rng_step = (st == S_P0) || (st == S_P1 && p_d > 11'd1) ||
                     (st == S_A && (i1 + 11'd1) < p_d);
     rng64 #(.ZERO_SUB(ZERO_SUB)) u_rng (
         .clk(clk), .rst(rst), .load(start), .seed(seed), .step(rng_step), .rnd(rnd));
 
-    // j = k + ((r24 * (BS - k)) >> 24) for k = 0 (prep) and k = i + 1.
-    // i1 and bsk1 are registers updated together with i and p_bs, so the
-    // multiplier starts from flip-flops (was: i -> +1 -> subtract -> multiply
-    // -> add -> j_q, 10 logic levels, -0.3 ns at 100 MHz in the full design).
     wire [36:0] prod0 = {13'd0, r24_q} * {24'd0, p_bs};
     wire [36:0] prod1 = {13'd0, r24_q} * {24'd0, bsk1};
     wire [12:0] j0    = prod0[36:24];
     wire [12:0] j1    = {2'b00, i1} + prod1[36:24];
 
-    // ---------------- P: true dual-port RAM
     reg  [11:0] pmem [0:4095];
     reg  [11:0] pa_dout, pb_dout;
     reg         pa_we, pb_we;
@@ -87,8 +63,8 @@ module sampler #(
                 pa_addr = {1'b0, i};   pb_addr = j_q;
             end
             S_B: begin
-                pa_we = 1'b1;               pa_addr = {1'b0, i}; pa_din = pb_dout;   // P[i] <- P[j]
-                pb_we = (j_wr != {1'b0, i}); pb_addr = j_wr;     pb_din = pa_dout;   // P[j] <- P[i]
+                pa_we = 1'b1;               pa_addr = {1'b0, i}; pa_din = pb_dout;
+                pb_we = (j_wr != {1'b0, i}); pb_addr = j_wr;     pb_din = pa_dout;
             end
             default: ;
         endcase
@@ -103,14 +79,12 @@ module sampler #(
         pb_dout <= pmem[pb_addr];
     end
 
-    // ---------------- IDX: 2 banks x 1024
     reg [11:0] imem [0:2047];
     always @(posedge clk)
-        if (st == S_B) imem[{wbank, i[9:0]}] <= pb_dout;     // the new P[i]
+        if (st == S_B) imem[{wbank, i[9:0]}] <= pb_dout;
     always @(posedge clk)
         rd_idx <= imem[{rd_bank, rd_addr}];
 
-    // ---------------- control
     always @(posedge clk) begin
         if (rst) begin
             st <= S_IDLE; ready <= 2'b00; wbank <= 1'b0;
@@ -137,22 +111,22 @@ module sampler #(
                         i1 <= 11'd1; bsk1 <= p_bs - 13'd1;
                         st <= S_P0;
                     end
-                S_P0: begin                         // r24 for step 0
+                S_P0: begin
                     r24_q <= rnd[63:40];
                     st    <= S_P1;
                 end
-                S_P1: begin                         // j for step 0; r24 for step 1
+                S_P1: begin
                     j_q <= j0[11:0];
                     if (p_d > 11'd1) r24_q <= rnd[63:40];
                     st  <= S_A;
                 end
-                S_A: begin                          // read P[i], P[j]; prepare step i+1
+                S_A: begin
                     j_wr <= j_q;
                     if (i1 < p_d) j_q <= j1[11:0];
                     if ((i1 + 11'd1) < p_d) r24_q <= rnd[63:40];
                     st <= S_B;
                 end
-                S_B: begin                          // swap, output the new P[i]
+                S_B: begin
                     if (i1 == p_d) begin
                         ready[wbank] <= 1'b1;
                         wbank <= ~wbank;

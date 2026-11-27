@@ -1,25 +1,3 @@
-// key_out.v - Bob releases the undisclosed bits of an accepted block (Part 1).
-// docs/pe_top_timing.md section 3.4; part1/INTERFACES_change_proposal.md section 5.
-//
-// On message 5 (the decision, which follows the SPRT):
-//   ABORT  -> the block is discarded; the buffer is freed on the next ce edge.
-//   ACCEPT -> the block is read word by word (key word and disclosed-mark word
-//             together) and output as {key_data, key_keep = ~disclosed}; the
-//             kept bits are counted in cnt_key_out (KEY_OUT, 0x198). The buffer
-//             is freed after the last word, about W + 3 ce edges later
-//             (W = ceil(BLOCK_SIZE / 32)).
-// Bits past BLOCK_SIZE in the last word are never kept. Every disclosed bit was
-// marked by b_disclose, so the bits kept per block = BLOCK_SIZE - max(n_sprt, n_fix).
-// key_valid / key_data / key_keep are the key stream (debug/ILA; no consumer yet).
-//
-// Timing fix (Part 4, 18 Nov 2026, after the first Vivado run of the full design
-// failed at 100 MHz by 1.6 ns on bs -> mask -> popcount -> cnt_key_out):
-//   * nw and the last-word mask depend only on BLOCK_SIZE, which is latched on
-//     start, so they are registered (ready one clock after bs settles);
-//   * the popcount of each released word is registered and added to
-//     cnt_key_out one clock later.
-// The key stream (key_valid/data/keep) and buffer release are unchanged; only
-// KEY_OUT updates one clock later, so its final value is the same.
 `timescale 1ns / 1ps
 `default_nettype none
 
@@ -28,15 +6,15 @@ module key_out (
     input  wire        rst,
     input  wire        ce,
     input  wire        start,
-    input  wire [12:0] bs,           // BLOCK_SIZE (latched)
-    input  wire        m5_valid,     // message 5: decision for the block in blk_buf
+    input  wire [12:0] bs,
+    input  wire        m5_valid,
     input  wire        m5_abort,
     input  wire        blk_buf,
-    output wire        active,       // key_out owns Bob's memory port B
+    output wire        active,
     output wire [7:0]  mem_addr,
     input  wire [31:0] mem_data,
     input  wire [31:0] disc_data,
-    output reg         free_valid,   // buffer free_buf may be refilled
+    output reg         free_valid,
     output reg         free_buf,
     output reg         key_valid,
     output reg  [31:0] key_data,
@@ -46,12 +24,11 @@ module key_out (
     reg       act, issue, rv, rbuf;
     reg [6:0] w, rw;
 
-    // BLOCK_SIZE-only values, registered (bs is constant during a run)
     wire [13:0] bs31   = {1'b0, bs} + 14'd31;
-    wire [7:0]  nw_c   = bs31[12:5];                   // words per block (1..128)
+    wire [7:0]  nw_c   = bs31[12:5];
     wire [4:0]  rem    = bs[4:0];
     reg  [7:0]  nw, nw_m1;
-    reg  [31:0] lmask;                                 // valid bits of the last word
+    reg  [31:0] lmask;
     always @(posedge clk) begin
         nw    <= nw_c;
         nw_m1 <= nw_c - 8'd1;
@@ -62,7 +39,6 @@ module key_out (
     wire [31:0] mask   = last_w ? lmask : 32'hFFFF_FFFF;
     wire [31:0] keep   = ~disc_data & mask;
 
-    // balanced popcount (5 adder levels instead of a 32-long chain)
     function [5:0] popcount32(input [31:0] x);
         integer b;
         reg [1:0] p2 [0:15];
@@ -81,7 +57,6 @@ module key_out (
     assign active   = act;
     assign mem_addr = {rbuf, w};
 
-    // second stage of the key-bit count
     reg       pc_v;
     reg [5:0] pc_q;
 
@@ -105,7 +80,7 @@ module key_out (
                         act <= 1'b1; issue <= 1'b1; rv <= 1'b0; w <= 7'd0; rbuf <= blk_buf;
                     end
                 end else if (act) begin
-                    // read word w on this edge; its data is used on the next edge
+
                     rv <= issue;
                     rw <= w;
                     if (issue) begin

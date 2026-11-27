@@ -1,23 +1,5 @@
 #!/usr/bin/env python3
-"""plot.py - Graph 1, Graph 2 and the reliability table from the ZedBoard's CSV (Part 4).
-
-Reads one or more logs captured from the board's UART (host/capture.py or a
-PuTTY log of sw/main/main.c). Lines starting with '#' are comments; data lines
-follow the header of INTERFACES.md section 6 (sw/uart_log.c).
-
-    python host/plot.py results/sweep_20261119.log
-    python host/plot.py results/*.log --out results/figures
-
-Writes to --out (default results/figures):
-    graph1.pdf/.png        bits revealed per decision vs true QBER: SPRT, fixed
-                           test (202 bits), Wald's prediction
-    graph2.pdf/.png        processed rate vs input rate: FPGA, ARM (read + estimate),
-                           ARM (read only), ideal
-    reliability.csv/.tex   wrong-abort rate at 3 %, wrong-accept rate at 11 %
-    graph3_eve.pdf/.png    eavesdropper sweep from demo runs (QBER and blocks aborted vs Eve %)
-    graph1.csv, graph2.csv the numbers behind the graphs
-and prints the tables and the sustained-rate check.
-"""
+"""plot.py - Graph 1, Graph 2 and the reliability table from the ZedBoard's CSV."""
 import argparse
 import csv
 import glob
@@ -31,15 +13,10 @@ COLS = ("mode,preset,p_noise,f_eve,rate_div,block_size,run_s,photons_in,photons_
         "stream_words_dropped,arm_photons,arm_blocks,arm_sum_n_sprt,arm_abort_sprt,arm_match").split(",")
 MODES = {"single", "g1", "rel", "rate", "long"}
 
-# Design parameters of the BB84 preset (sw/params.c)
 P0, P1, ALPHA, BETA, FIX_N = 0.03, 0.11, 0.01, 0.01, 202
 
-# Categorical slots 1-3 of the dataviz reference palette, in fixed order
-# (validated: CVD dE >= 9.2; slot 3 is below 3:1 on white, so every series also
-# has its own marker, line style and a direct label). Reference lines are neutral grey.
 C_SPRT, C_FIX, C_CURT = "#2a78d6", "#eb6834", "#1baf7a"
 C_REF, C_INK, C_MUTED, C_GRID = "#6b6a63", "#22221f", "#5f5e58", "#e6e5e0"
-
 
 def read_rows(paths):
     rows, seen = [], set()
@@ -52,28 +29,25 @@ def read_rows(paths):
                         continue
                     parts = line.split(",")
                     if parts[0] not in MODES or len(parts) != len(COLS) or line in seen:
-                        continue                         # a saved log can repeat a line
+                        continue
                     seen.add(line)
                     r = dict(zip(COLS, parts))
                     if "curtail" in r["preset"]:
-                        continue                         # SPRT vs plain fixed test only
+                        continue
                     for k in COLS[2:]:
                         r[k] = float(r[k])
                     rows.append(r)
     return rows
 
-
-# ----------------------------------------------------------------- Wald's theory
 def wald_asn(p, p0=P0, p1=P1, a=ALPHA, b=BETA):
-    """Expected number of observations of Wald's SPRT (no truncation, no overshoot)."""
     A, B = math.log((1 - b) / a), math.log(b / (1 - a))
     ze, zo = math.log(p1 / p0), math.log((1 - p1) / (1 - p0))
     mu = p * ze + (1 - p) * zo
-    if p <= 0.0:                                         # no errors: every bit adds zo
+    if p <= 0.0:
         return B / zo
-    if abs(mu) < 1e-9:                                   # the zero-drift point
+    if abs(mu) < 1e-9:
         return -A * B / (p * ze * ze + (1 - p) * zo * zo)
-    # operating characteristic: h solves p (p1/p0)^h + (1-p) ((1-p1)/(1-p0))^h = 1
+
     f = lambda h: p * math.exp(h * ze) + (1 - p) * math.exp(h * zo) - 1.0
     lo, hi = (1e-6, 60.0) if mu < 0 else (-60.0, -1e-6)
     for _ in range(200):
@@ -84,11 +58,9 @@ def wald_asn(p, p0=P0, p1=P1, a=ALPHA, b=BETA):
             lo = mid
     h = 0.5 * (lo + hi)
     eA, eB = math.exp(h * A), math.exp(h * B)
-    L = (eA - 1) / (eA - eB)                             # P(accept)
+    L = (eA - 1) / (eA - eB)
     return (L * B + (1 - L) * A) / mu
 
-
-# ----------------------------------------------------------------- figures
 def style(ax, xlabel, ylabel):
     ax.set_xlabel(xlabel, color=C_INK)
     ax.set_ylabel(ylabel, color=C_INK)
@@ -100,11 +72,9 @@ def style(ax, xlabel, ylabel):
         ax.spines[s].set_color(C_MUTED)
     ax.tick_params(colors=C_MUTED)
 
-
 def label_end(ax, x, y, text, dy=0):
     ax.annotate(text, (x, y), xytext=(6, dy), textcoords="offset points",
                 va="center", fontsize=9, color=C_INK)
-
 
 def graph1(rows, out):
     import matplotlib.pyplot as plt
@@ -159,7 +129,6 @@ def graph1(rows, out):
     for q, sb, fb, _ in plain:
         print(f"  {q:6.2f} {sb:7.1f} {fb:7.1f}  {100 * (1 - sb / fb):5.1f} %")
 
-
 def graph2(rows, out):
     import matplotlib.pyplot as plt
     est = sorted((r for r in rows if r["mode"] == "rate" and r["preset"] == "bb84" and r["run_s"] > 0),
@@ -197,7 +166,7 @@ def graph2(rows, out):
     ax.set_xlim(0, top * 1.12)
     ax.set_ylim(0, top * 1.08)
     label_end(ax, x[-1], fpga[-1], f"FPGA {fpga[-1]:.0f}")
-    close = ro and abs(armr[-1] - arm[-1]) < 0.06 * top        # keep the two ARM labels apart
+    close = ro and abs(armr[-1] - arm[-1]) < 0.06 * top
     label_end(ax, x[-1], arm[-1], f"ARM {arm[-1]:.1f}", dy=-7 if close else 0)
     if ro:
         label_end(ax, xr[-1], armr[-1], f"ARM read only {armr[-1]:.1f}", dy=7 if close else 0)
@@ -215,7 +184,6 @@ def graph2(rows, out):
               f"   {'yes' if r['arm_match'] == 1 else ('no' if r['arm_match'] == 0 else 'n/a (drops)')}")
     print(f"  FPGA / ARM at the highest input rate: {fpga[-1] / arm[-1]:.1f}x")
 
-
 def reliability(rows, out):
     rel = [r for r in rows if r["mode"] == "rel" and r["blocks_done"] > 0]
     if not rel:
@@ -226,7 +194,7 @@ def reliability(rows, out):
         n = r["blocks_done"]
         good = q < (P0 + P1) / 2
         def rate(aborts):
-            k = aborts if good else n - aborts       # wrong aborts, or wrong accepts
+            k = aborts if good else n - aborts
             p = k / n
             return 100 * p, 100 * 1.96 * math.sqrt(max(p * (1 - p), 1e-12) / n)
         s, sci = rate(r["abort_sprt"])
@@ -252,14 +220,12 @@ def reliability(rows, out):
               f"SPRT {L['sprt']:.2f} +- {L['sprt_ci']:.2f} %   fixed {L['fixed']:.2f} +- {L['fixed_ci']:.2f} %   "
               f"(bits {L['sprt_bits']:.1f} vs {L['fixed_bits']:.1f}, {L['blocks']:,} blocks)")
 
-
 def eve_sweep(rows, out):
-    """Graph 3: eavesdropper sweep from demo runs (mode single, >= 1000 blocks) at one noise level."""
     import matplotlib.pyplot as plt
     groups = {}
     for r in rows:
         if r["mode"] == "single" and r["blocks_done"] >= 1000 and r["sifted"] > 0:
-            groups.setdefault(r["p_noise"], {})[r["f_eve"]] = r      # last run per Eve setting wins
+            groups.setdefault(r["p_noise"], {})[r["f_eve"]] = r
     groups = {k: v for k, v in groups.items() if len(v) >= 3}
     if not groups:
         print("eve sweep: no demo runs with 3 or more Eve settings"); return
@@ -318,7 +284,6 @@ def eve_sweep(rows, out):
         print(f"  {q['eve']:5.0f} {q['qber']:7.2f} {q['theory']:7.2f}   {q['abort_sprt']:8.2f} %  {q['abort_fix']:8.2f} %"
               f"   {q['sprt_bits']:8.1f}  {q['fixed_bits']:8.1f}")
 
-
 def sustained(rows):
     for r in rows:
         if r["mode"] == "long":
@@ -326,7 +291,6 @@ def sustained(rows):
             print(f"Sustained rate: {r['run_s']:.1f} s at {r['photons_in'] / r['run_s'] / 1e6:.2f} M photons/s, "
                   f"{r['photons_in'] / 1e9:.3f} G photons in, {r['photons_proc'] / 1e9:.3f} G processed, "
                   f"{int(r['pl_dropped'])} dropped: {'PASS' if ok else 'FAIL'}")
-
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
@@ -347,7 +311,6 @@ def main():
     eve_sweep(rows, a.out)
     sustained(rows)
     print(f"figures and tables in {a.out}")
-
 
 if __name__ == "__main__":
     main()

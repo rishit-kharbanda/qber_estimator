@@ -1,5 +1,3 @@
-/* xs64.h - xorshift64 (shifts 13, 7, 17), as in INTERFACES.md section 0.
- * The state must be non-zero. */
 #ifndef XS64_H
 #define XS64_H
 
@@ -15,4 +13,4 @@ static inline uint64_t xs64_next(uint64_t *s)
     return x;
 }
 
-#endif /* XS64_H */
+#endif
